@@ -11,7 +11,7 @@ namespace KingHotelProject.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IMediator _mediator; //MediatR is used to implement the Mediator pattern, decoupling the controller from business logic
 
         public AuthController(IMediator mediator)
         {

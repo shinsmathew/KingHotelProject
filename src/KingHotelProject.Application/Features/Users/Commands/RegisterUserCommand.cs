@@ -1,4 +1,5 @@
 ﻿
+using FluentValidation;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
@@ -17,15 +18,23 @@ namespace KingHotelProject.Application.Features.Users.Commands
     {
         private readonly IUserRepository _userRepository;
         private readonly IIdentityService _identityService;
+        private readonly IValidator<UserRegisterDto> _validator;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IIdentityService identityService)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IIdentityService identityService, IValidator<UserRegisterDto> validator)
         {
             _userRepository = userRepository;
             _identityService = identityService;
+            _validator = validator;
         }
 
         public async Task<AuthResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(request.UserRegisterDto, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
             var existingUser = await _userRepository.GetByUserNameAsync(request.UserRegisterDto.UserName);
             if (existingUser != null)
             {
