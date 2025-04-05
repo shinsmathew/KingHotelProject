@@ -30,6 +30,9 @@ namespace KingHotelProject.API.Extensions
         {
             var redisConfig = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"));
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConfig));
+
+
+
             services.AddScoped<ICacheService, RedisCacheService>();
 
             // Add Redis health check
@@ -43,8 +46,7 @@ namespace KingHotelProject.API.Extensions
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
-            // Add generic repository if needed
-            // services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+           
         }
 
         public static void ConfigureServices(this IServiceCollection services)
