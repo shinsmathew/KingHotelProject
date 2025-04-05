@@ -1,5 +1,4 @@
-﻿// KingHotelProject.Infrastructure/Repositories/UserRepository.cs
-using KingHotelProject.Core.Entities;
+﻿using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Interfaces;
 using KingHotelProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

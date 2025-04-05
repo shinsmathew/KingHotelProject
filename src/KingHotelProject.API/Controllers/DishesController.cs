@@ -1,5 +1,4 @@
-﻿// KingHotelProject.API/Controllers/DishesController.cs
-using KingHotelProject.Application.DTOs;
+﻿using KingHotelProject.Application.DTOs;
 using KingHotelProject.Application.Features.Dishes.Commands;
 using KingHotelProject.Application.Features.Dishes.Queries;
 using MediatR;

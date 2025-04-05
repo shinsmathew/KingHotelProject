@@ -44,4 +44,3 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
     }
 }
 
-// Similar implementations for UpdateDishCommand, DeleteDishCommand, GetAllDishesQuery, GetDishByIdQuery, etc.

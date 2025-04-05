@@ -1,5 +1,4 @@
-﻿// KingHotelProject.Application/Features/Hotels/Validators/HotelUpdateValidator.cs
-using FluentValidation;
+﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
 
 namespace KingHotelProject.Application.Features.Hotels.Validators

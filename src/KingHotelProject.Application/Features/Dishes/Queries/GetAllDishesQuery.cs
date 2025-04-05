@@ -1,5 +1,4 @@
-﻿// KingHotelProject.Application/Features/Dishes/Queries/GetAllDishesQuery.cs
-using AutoMapper;
+﻿using AutoMapper;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Interfaces;
 using MediatR;

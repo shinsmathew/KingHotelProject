@@ -1,5 +1,4 @@
-﻿// KingHotelProject.Application/Features/Dishes/Validators/DishCreateValidator.cs
-using FluentValidation;
+﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
 
 namespace KingHotelProject.Application.Features.Dishes.Validators

@@ -1,5 +1,4 @@
-﻿// KingHotelProject.Application/Features/Dishes/Commands/DeleteDishCommand.cs
-using KingHotelProject.Core.Entities;
+﻿using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
 using MediatR;
