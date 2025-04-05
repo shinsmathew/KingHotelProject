@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using KingHotelProject.Application.Features.Dishes.Commands;
-using KingHotelProject.Application.Features.Hotels.Validators;
 using KingHotelProject.Core.Interfaces;
 using KingHotelProject.Infrastructure.Caching;
 using KingHotelProject.Infrastructure.Data;
@@ -29,10 +27,8 @@ namespace KingHotelProject.API.Extensions
         public static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
         {
             var redisConfig = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"));
+
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConfig));
-
-
-
             services.AddScoped<ICacheService, RedisCacheService>();
 
             // Add Redis health check
@@ -87,9 +83,7 @@ namespace KingHotelProject.API.Extensions
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(typeof(Application.AssemblyReference).Assembly);
-                
-                // Add behaviors if needed
-                // cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
             });
 
 
@@ -99,11 +93,7 @@ namespace KingHotelProject.API.Extensions
         {
             services.AddAutoMapper(typeof(Application.Mappings.MappingProfile));
 
-            // More explicit configuration if needed
-            // services.AddAutoMapper(config =>
-            // {
-            //     config.AddProfile<MappingProfile>();
-            // }, typeof(Application.AssemblyReference).Assembly);
+
         }
 
         public static void ConfigureFluentValidation(this IServiceCollection services)

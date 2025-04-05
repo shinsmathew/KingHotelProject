@@ -21,10 +21,7 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
         private readonly IMapper _mapper;
         private readonly IValidator<HotelCreateDto> _validator;
 
-        public CreateHotelCommandHandler(
-            IHotelRepository hotelRepository,
-            IMapper mapper,
-            IValidator<HotelCreateDto> validator)
+        public CreateHotelCommandHandler(IHotelRepository hotelRepository, IMapper mapper, IValidator<HotelCreateDto> validator)
         {
             _hotelRepository = hotelRepository;
             _mapper = mapper;

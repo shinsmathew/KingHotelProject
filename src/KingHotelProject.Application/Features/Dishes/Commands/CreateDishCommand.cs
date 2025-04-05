@@ -19,10 +19,7 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
         private readonly IHotelRepository _hotelRepository;
         private readonly IMapper _mapper;
 
-        public CreateDishCommandHandler(
-            IDishRepository dishRepository,
-            IHotelRepository hotelRepository,
-            IMapper mapper)
+        public CreateDishCommandHandler(IDishRepository dishRepository, IHotelRepository hotelRepository, IMapper mapper)
         {
             _dishRepository = dishRepository;
             _hotelRepository = hotelRepository;
