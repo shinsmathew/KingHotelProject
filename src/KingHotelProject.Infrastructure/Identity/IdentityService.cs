@@ -57,9 +57,15 @@ namespace KingHotelProject.Infrastructure.Identity
 
         public string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
+            using var deriveBytes = new Rfc2898DeriveBytes(password, 16, 10000);
+            byte[] salt = deriveBytes.Salt;
+            byte[] hash = deriveBytes.GetBytes(20);
+
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+
+            return Convert.ToBase64String(hashBytes);
         }
 
         public bool VerifyPassword(string hashedPassword, string providedPassword)
