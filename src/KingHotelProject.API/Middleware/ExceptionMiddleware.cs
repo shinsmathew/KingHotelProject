@@ -2,6 +2,7 @@
 using KingHotelProject.Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -125,6 +126,34 @@ namespace KingHotelProject.API.Middleware
                     };
                     break;
 
+                case DbUpdateException dbUpdateException:
+                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    problemDetails = new ProblemDetails
+                    {
+                        Title = "Database Error",
+                        Status = context.Response.StatusCode,
+                        Detail = "An error occurred while saving to the database",
+                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                        Instance = context.Request.Path
+                    };
+                    if (_env.IsDevelopment())
+                    {
+                        problemDetails.Extensions.Add("errors", dbUpdateException.InnerException?.Message);
+                    }
+                    break;
+
+                case OperationCanceledException:
+                    context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
+                    problemDetails = new ProblemDetails
+                    {
+                        Title = "Request Cancelled",
+                        Status = context.Response.StatusCode,
+                        Detail = "The request was cancelled",
+                        Type = "https://tools.ietf.org/html/rfc7231#section-6.6.4",
+                        Instance = context.Request.Path
+                    };
+                    break;
+
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     problemDetails = new ProblemDetails
@@ -136,6 +165,8 @@ namespace KingHotelProject.API.Middleware
                         Instance = context.Request.Path
                     };
                     break;
+
+
             }
 
             // Add exception stack trace in development
