@@ -17,6 +17,7 @@ namespace KingHotelProject.Infrastructure.Repositories
         public async Task<IEnumerable<Dish>> GetAllAsync()
         {
             return await _context.Dishes
+                 .AsNoTracking()
                 .Include(d => d.Hotel)
                 .ToListAsync();
         }
@@ -24,6 +25,7 @@ namespace KingHotelProject.Infrastructure.Repositories
         public async Task<Dish> GetByIdAsync(Guid id)
         {
             return await _context.Dishes
+                 .AsNoTracking()
                 .Include(d => d.Hotel)
                 .FirstOrDefaultAsync(d => d.DishId == id);
         }

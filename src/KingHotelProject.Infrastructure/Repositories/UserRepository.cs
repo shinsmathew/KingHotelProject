@@ -23,7 +23,9 @@ namespace KingHotelProject.Infrastructure.Repositories
 
         public async Task<User> GetByUserNameAsync(string userName)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.UserName == userName);
         }
 
         public async Task<User> GetByEmailAsync(string email)
