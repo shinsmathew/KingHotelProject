@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Entities;
+using KingHotelProject.Core.Enums;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
 using MediatR;
@@ -36,6 +37,13 @@ namespace KingHotelProject.Application.Features.Users.Commands
                 throw new ValidationException(validationResult.Errors);
             }
 
+            if (!Enum.IsDefined(typeof(UserRole), request.UserRegisterDto.Role))
+            {
+                throw new BadRequestException($"Invalid role value: {request.UserRegisterDto.Role}. Valid roles are: " +
+                                             string.Join(", ", Enum.GetNames(typeof(UserRole))
+                                                             .Select((name, index) => $"{name} ({index})")));
+            }
+
             // Check username uniqueness
             var existingUserByName = await _userRepository.GetByUserNameAsync(request.UserRegisterDto.UserName);
             if (existingUserByName != null)
@@ -57,7 +65,7 @@ namespace KingHotelProject.Application.Features.Users.Commands
                 Email = request.UserRegisterDto.Email,
                 UserName = request.UserRegisterDto.UserName,
                 PasswordHash = _identityService.HashPassword(request.UserRegisterDto.Password),
-                Role = request.UserRegisterDto.Role
+                Role = (UserRole)request.UserRegisterDto.Role
             };
 
             await _userRepository.AddAsync(user);

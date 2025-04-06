@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
+using KingHotelProject.Core.Enums;
 
 namespace KingHotelProject.Application.Features.Users.Validators
 {
@@ -30,6 +31,12 @@ namespace KingHotelProject.Application.Features.Users.Validators
                 .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter")
                 .Matches("[0-9]").WithMessage("Password must contain at least one number")
                 .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character");
+
+            RuleFor(x => x.Role)
+                .Must(role => Enum.IsDefined(typeof(UserRole), role))
+                .WithMessage("Invalid role. Role must be one of the following values: " +
+                             string.Join(", ", Enum.GetNames(typeof(UserRole))
+                                             .Select((name, index) => $"{name} ({index})")));
         }
     }
 

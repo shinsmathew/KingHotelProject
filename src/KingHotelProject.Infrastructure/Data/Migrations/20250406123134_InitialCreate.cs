@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace KingHotelProject.Infrastructure.Migrations
+namespace KingHotelProject.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -29,19 +29,6 @@ namespace KingHotelProject.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hotels", x => x.HotelId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserLogins",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLogins", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,9 +81,6 @@ namespace KingHotelProject.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Dishes");
-
-            migrationBuilder.DropTable(
-                name: "UserLogins");
 
             migrationBuilder.DropTable(
                 name: "Users");
