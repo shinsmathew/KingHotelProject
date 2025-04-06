@@ -16,12 +16,16 @@ namespace KingHotelProject.Infrastructure.Repositories
 
         public async Task<IEnumerable<Dish>> GetAllAsync()
         {
-            return await _context.Dishes.Include(d => d.Hotel).ToListAsync();
+            return await _context.Dishes
+                .Include(d => d.Hotel)
+                .ToListAsync();
         }
 
         public async Task<Dish> GetByIdAsync(Guid id)
         {
-            return await _context.Dishes.Include(d => d.Hotel).FirstOrDefaultAsync(d => d.DishId == id);
+            return await _context.Dishes
+                .Include(d => d.Hotel)
+                .FirstOrDefaultAsync(d => d.DishId == id);
         }
 
         public async Task<IEnumerable<Dish>> GetByHotelIdAsync(Guid hotelId)
