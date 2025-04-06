@@ -11,7 +11,6 @@ namespace KingHotelProject.Infrastructure.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Dish> Dishes { get; set; }
 
