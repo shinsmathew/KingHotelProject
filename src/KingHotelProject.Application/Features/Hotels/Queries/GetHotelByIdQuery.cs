@@ -1,10 +1,8 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
-using KingHotelProject.Infrastructure.Repositories;
 using MediatR;
 
 namespace KingHotelProject.Application.Features.Hotels.Queries
@@ -18,22 +16,43 @@ namespace KingHotelProject.Application.Features.Hotels.Queries
     {
         private readonly IHotelRepository _hotelRepository;
         private readonly IMapper _mapper;
+        private readonly ICacheService _cacheService;
 
-        public GetHotelByIdQueryHandler(IHotelRepository hotelRepository, IMapper mapper)
+        public GetHotelByIdQueryHandler(
+            IHotelRepository hotelRepository,
+            IMapper mapper,
+            ICacheService cacheService)
         {
             _hotelRepository = hotelRepository;
             _mapper = mapper;
+            _cacheService = cacheService;
         }
 
         public async Task<HotelResponseDto> Handle(GetHotelByIdQuery request, CancellationToken cancellationToken)
         {
+            var cacheKey = $"Hotel_{request.Id}";
+
+            // Check cache first
+            var cachedHotel = await _cacheService.GetAsync<HotelResponseDto>(cacheKey);
+            if (cachedHotel != null)
+            {
+                return cachedHotel;
+            }
+
+            // If not in cache, get from database
             var hotel = await _hotelRepository.GetByIdAsync(request.Id);
             if (hotel == null)
             {
                 throw new NotFoundException(nameof(Hotel), request.Id);
             }
 
-            return _mapper.Map<HotelResponseDto>(hotel);
+            var result = _mapper.Map<HotelResponseDto>(hotel);
+
+            // Cache the result
+            await _cacheService.SetAsync(cacheKey, result, TimeSpan.FromMinutes(5));
+
+            return result;
         }
     }
 }
+

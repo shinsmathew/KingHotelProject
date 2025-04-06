@@ -1,16 +1,13 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Entities;
-using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
-using KingHotelProject.Infrastructure.Repositories;
 using MediatR;
 
 namespace KingHotelProject.Application.Features.Hotels.Commands
 {
-    public class CreateHotelCommand : IRequest<HotelResponseDto>
+    public class CreateHotelCommand : IRequest<HotelResponseDto>, INotification
     {
         public HotelCreateDto HotelCreateDto { get; set; }
     }
@@ -20,12 +17,18 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
         private readonly IHotelRepository _hotelRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<HotelCreateDto> _validator;
+        private readonly ICacheService _cacheService;
 
-        public CreateHotelCommandHandler(IHotelRepository hotelRepository, IMapper mapper, IValidator<HotelCreateDto> validator)
+        public CreateHotelCommandHandler(
+            IHotelRepository hotelRepository,
+            IMapper mapper,
+            IValidator<HotelCreateDto> validator,
+            ICacheService cacheService)
         {
             _hotelRepository = hotelRepository;
             _mapper = mapper;
             _validator = validator;
+            _cacheService = cacheService;
         }
 
         public async Task<HotelResponseDto> Handle(CreateHotelCommand request, CancellationToken cancellationToken)
@@ -38,9 +41,12 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
 
             var hotel = _mapper.Map<Hotel>(request.HotelCreateDto);
             var createdHotel = await _hotelRepository.AddAsync(hotel);
+
+            // Invalidate the AllHotels cache
+            await _cacheService.RemoveAsync("AllHotels");
+
             return _mapper.Map<HotelResponseDto>(createdHotel);
         }
     }
 }
-
 

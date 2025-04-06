@@ -1,8 +1,6 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Interfaces;
-using KingHotelProject.Infrastructure.Repositories;
 using MediatR;
 
 namespace KingHotelProject.Application.Features.Hotels.Queries
@@ -15,17 +13,37 @@ namespace KingHotelProject.Application.Features.Hotels.Queries
     {
         private readonly IHotelRepository _hotelRepository;
         private readonly IMapper _mapper;
+        private readonly ICacheService _cacheService;
+        private const string CACHE_KEY = "AllHotels";
 
-        public GetAllHotelsQueryHandler(IHotelRepository hotelRepository, IMapper mapper)
+        public GetAllHotelsQueryHandler(
+            IHotelRepository hotelRepository,
+            IMapper mapper,
+            ICacheService cacheService)
         {
             _hotelRepository = hotelRepository;
             _mapper = mapper;
+            _cacheService = cacheService;
         }
 
         public async Task<IEnumerable<HotelResponseDto>> Handle(GetAllHotelsQuery request, CancellationToken cancellationToken)
         {
+            // Check cache first
+            var cachedHotels = await _cacheService.GetAsync<IEnumerable<HotelResponseDto>>(CACHE_KEY);
+            if (cachedHotels != null)
+            {
+                return cachedHotels;
+            }
+
+            // If not in cache, get from database
             var hotels = await _hotelRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<HotelResponseDto>>(hotels);
+            var result = _mapper.Map<IEnumerable<HotelResponseDto>>(hotels);
+
+            // Cache the result
+            await _cacheService.SetAsync(CACHE_KEY, result, TimeSpan.FromMinutes(5));
+
+            return result;
         }
     }
 }
+
