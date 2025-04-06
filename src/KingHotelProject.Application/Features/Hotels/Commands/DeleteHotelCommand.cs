@@ -37,7 +37,7 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
             await _cacheService.RemoveAsync("AllHotels");
             await _cacheService.RemoveAsync($"Hotel_{request.Id}");
             await _cacheService.RemoveAsync($"DishesByHotel_{request.Id}");
-            await _cacheService.RemoveAsync("AllDishes"); // Since dishes related to this hotel will be deleted
+            await _cacheService.RemoveAsync("AllDishes"); 
         }
     }
 }

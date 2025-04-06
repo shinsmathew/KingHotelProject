@@ -31,7 +31,6 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
                 throw new NotFoundException(nameof(Dish), request.Id);
             }
 
-            // Store the hotelId before deleting the dish
             var hotelId = dish.HotelId;
 
             await _dishRepository.DeleteAsync(dish);

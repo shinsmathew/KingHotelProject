@@ -15,10 +15,7 @@ namespace KingHotelProject.API.Middleware
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IHostEnvironment _env;
 
-        public ExceptionMiddleware(
-            RequestDelegate next,
-            ILogger<ExceptionMiddleware> logger,
-            IHostEnvironment env)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
         {
             _next = next;
             _logger = logger;
@@ -143,7 +140,7 @@ namespace KingHotelProject.API.Middleware
                     break;
             }
 
-            // Add exception stack trace in development
+            // exception stack trace in development
             if (_env.IsDevelopment())
             {
                 problemDetails.Extensions.Add("stackTrace", exception.StackTrace);

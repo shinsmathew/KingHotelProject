@@ -21,7 +21,7 @@ namespace KingHotelProject.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<DishResponseDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DishResponseDto>>> GetAllDishes()
         {
             var query = new GetAllDishesQuery();
             var result = await _mediator.Send(query);
@@ -31,7 +31,7 @@ namespace KingHotelProject.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(DishResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DishResponseDto>> GetById(Guid id)
+        public async Task<ActionResult<DishResponseDto>> GetDishesById(Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -47,11 +47,11 @@ namespace KingHotelProject.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(DishResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<DishResponseDto>> Create(DishCreateDto dishCreateDto)
+        public async Task<ActionResult<DishResponseDto>> CreateDishes(DishCreateDto dishCreateDto)
         {
             var command = new CreateDishCommand { DishCreateDto = dishCreateDto };
             var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = result.DishId }, result);
+            return CreatedAtAction(nameof(GetDishesById), new { id = result.DishId }, result);
         }
 
         [Authorize(Roles = "Admin")]
@@ -59,7 +59,7 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(Guid id, DishUpdateDto dishUpdateDto)
+        public async Task<IActionResult> UpdateDishes(Guid id, DishUpdateDto dishUpdateDto)
         {
             if (id == Guid.Empty)
             {
@@ -75,7 +75,7 @@ namespace KingHotelProject.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteDishes(Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -90,7 +90,7 @@ namespace KingHotelProject.API.Controllers
         [HttpGet("by-hotel/{hotelId}")]
         [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<DishResponseDto>>> GetByHotelId(Guid hotelId)
+        public async Task<ActionResult<IEnumerable<DishResponseDto>>> GetDishesByHotelId(Guid hotelId)
         {
             if (hotelId == Guid.Empty)
             {

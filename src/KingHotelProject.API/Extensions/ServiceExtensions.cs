@@ -30,7 +30,7 @@ namespace KingHotelProject.API.Extensions
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConfig));
             services.AddScoped<ICacheService, RedisCacheService>();
 
-            // Add Redis health check
+            // Redis health check
             services.AddHealthChecks()
                 .AddRedis(configuration.GetConnectionString("Redis"), "Redis");
         }
@@ -109,7 +109,7 @@ namespace KingHotelProject.API.Extensions
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "King Hotel API", Version = "v1" });
 
-                // Add JWT Authentication to Swagger
+                // JWT Authentication to Swagger
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
                     Name = "Authorization",

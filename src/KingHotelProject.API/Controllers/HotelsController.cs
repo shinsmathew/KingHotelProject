@@ -21,7 +21,7 @@ namespace KingHotelProject.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<HotelResponseDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<HotelResponseDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<HotelResponseDto>>> GetAllHotelData()
         {
             var query = new GetAllHotelsQuery();
             var result = await _mediator.Send(query);
@@ -31,7 +31,7 @@ namespace KingHotelProject.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(HotelResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<HotelResponseDto>> GetById(Guid id)
+        public async Task<ActionResult<HotelResponseDto>> GetHotalDataById(Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -47,11 +47,11 @@ namespace KingHotelProject.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(HotelResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<HotelResponseDto>> Create(HotelCreateDto hotelCreateDto)
+        public async Task<ActionResult<HotelResponseDto>> CreateHotel(HotelCreateDto hotelCreateDto)
         {
             var command = new CreateHotelCommand { HotelCreateDto = hotelCreateDto };
             var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = result.HotelId }, result);
+            return CreatedAtAction(nameof(GetHotalDataById), new { id = result.HotelId }, result);
         }
 
         [Authorize(Roles = "Admin")]
@@ -59,7 +59,7 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(Guid id, HotelUpdateDto hotelUpdateDto)
+        public async Task<IActionResult> UpdateHotel(Guid id, HotelUpdateDto hotelUpdateDto)
         {
             if (id == Guid.Empty)
             {
@@ -75,7 +75,7 @@ namespace KingHotelProject.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteHotel(Guid id)
         {
             if (id == Guid.Empty)
             {
