@@ -68,26 +68,6 @@ namespace KingHotelProject.Infrastructure.Identity
             return hashedPassword == hashedProvidedPassword;
         }
 
-        public async Task<User> GetCurrentUserAsync()
-        {
-            var userId = GetCurrentUserId();
-            if (string.IsNullOrEmpty(userId))
-            {
-                return null;
-            }
-
-            return await _userRepository.GetByIdAsync(Guid.Parse(userId));
-        }
-
-        public string GetCurrentUserId()
-        {
-            return _httpContextAccessor.HttpContext?.User?.FindFirst("userId")?.Value;
-        }
-
-        public async Task<bool> IsInRoleAsync(string userId, string role)
-        {
-            var user = await _userRepository.GetByIdAsync(Guid.Parse(userId));
-            return user?.Role.ToString() == role;
-        }
+        
     }
 }

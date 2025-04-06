@@ -8,6 +8,6 @@ namespace KingHotelProject.Core.Interfaces
     {
         Task<User> AddAsync(User user);
         Task<User> GetByUserNameAsync(string userName);
-        Task<User> GetByIdAsync(Guid id);
+        Task<User> GetByEmailAsync(string email);
     }
 }

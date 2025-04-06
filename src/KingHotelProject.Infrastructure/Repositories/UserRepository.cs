@@ -26,9 +26,12 @@ namespace KingHotelProject.Infrastructure.Repositories
             return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
         }
 
-        public async Task<User> GetByIdAsync(Guid id)
+        public async Task<User> GetByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
+
     }
 }

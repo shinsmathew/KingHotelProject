@@ -27,6 +27,7 @@ namespace KingHotelProject.Application.Features.Users.Commands
             _validator = validator;
         }
 
+
         public async Task<AuthResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request.UserRegisterDto, cancellationToken);
@@ -35,10 +36,18 @@ namespace KingHotelProject.Application.Features.Users.Commands
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var existingUser = await _userRepository.GetByUserNameAsync(request.UserRegisterDto.UserName);
-            if (existingUser != null)
+            // Check username uniqueness
+            var existingUserByName = await _userRepository.GetByUserNameAsync(request.UserRegisterDto.UserName);
+            if (existingUserByName != null)
             {
                 throw new BadRequestException("Username already exists");
+            }
+
+            // Check email uniqueness
+            var existingUserByEmail = await _userRepository.GetByEmailAsync(request.UserRegisterDto.Email);
+            if (existingUserByEmail != null)
+            {
+                throw new BadRequestException("Email already registered");
             }
 
             var user = new User
@@ -70,6 +79,7 @@ namespace KingHotelProject.Application.Features.Users.Commands
                 }
             };
         }
+
     }
 }
 

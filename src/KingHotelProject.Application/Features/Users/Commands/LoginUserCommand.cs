@@ -1,8 +1,11 @@
 ﻿using KingHotelProject.Application.DTOs;
+using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
 using KingHotelProject.Infrastructure.Identity;
-using KingHotelProject.Infrastructure.Repositories;
 using MediatR;
+using FluentValidation;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KingHotelProject.Application.Features.Users.Commands
 {
@@ -15,24 +18,33 @@ namespace KingHotelProject.Application.Features.Users.Commands
     {
         private readonly IUserRepository _userRepository;
         private readonly IIdentityService _identityService;
+        private readonly IValidator<UserLoginDto> _validator;
 
-        public LoginUserCommandHandler(IUserRepository userRepository, IIdentityService identityService)
+        public LoginUserCommandHandler(IUserRepository userRepository,IIdentityService identityService,IValidator<UserLoginDto> validator)
         {
             _userRepository = userRepository;
             _identityService = identityService;
+            _validator = validator;
         }
 
         public async Task<AuthResponseDto> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(request.UserLoginDto, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
             var user = await _userRepository.GetByUserNameAsync(request.UserLoginDto.UserName);
             if (user == null)
             {
-                throw new UnauthorizedAccessException("Invalid username or password");
+                
+                throw new Core.Exceptions.UnauthorizedAccessException("Invalid credentials");
             }
 
             if (!_identityService.VerifyPassword(user.PasswordHash, request.UserLoginDto.Password))
             {
-                throw new UnauthorizedAccessException("Invalid username or password");
+                throw new Core.Exceptions.UnauthorizedAccessException("Invalid credentials");
             }
 
             var token = _identityService.GenerateJwtToken(user);

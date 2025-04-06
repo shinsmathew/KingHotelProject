@@ -9,9 +9,5 @@ namespace KingHotelProject.Core.Interfaces
         string HashPassword(string password);
         bool VerifyPassword(string hashedPassword, string providedPassword);
 
-        // Additional useful methods you might want:
-        Task<User> GetCurrentUserAsync();
-        string GetCurrentUserId();
-        Task<bool> IsInRoleAsync(string userId, string role);
     }
 }
