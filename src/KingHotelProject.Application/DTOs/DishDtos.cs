@@ -5,9 +5,7 @@
         public Guid DishId { get; set; }
         public string DishName { get; set; }
         public int Price { get; set; }
-        public DateTime CreatedDate { get; set; }
         public Guid HotelId { get; set; }
-        public HotelResponseDto Hotel { get; set; }
     }
 
     public class DishCreateDto
