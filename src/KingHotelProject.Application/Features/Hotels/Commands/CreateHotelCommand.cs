@@ -7,7 +7,7 @@ using MediatR;
 
 namespace KingHotelProject.Application.Features.Hotels.Commands
 {
-    public class CreateHotelCommand : IRequest<HotelResponseDto>, INotification
+    public class CreateHotelCommand : IRequest<HotelResponseDto>
     {
         public HotelCreateDto HotelCreateDto { get; set; }
     }
@@ -49,4 +49,3 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
         }
     }
 }
-

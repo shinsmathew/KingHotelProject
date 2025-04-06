@@ -5,7 +5,7 @@ using MediatR;
 
 namespace KingHotelProject.Application.Features.Dishes.Commands
 {
-    public class DeleteDishCommand : IRequest, INotification
+    public class DeleteDishCommand : IRequest
     {
         public Guid Id { get; set; }
     }
@@ -43,4 +43,3 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
         }
     }
 }
-

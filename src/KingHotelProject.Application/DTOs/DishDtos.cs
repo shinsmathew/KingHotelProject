@@ -1,5 +1,4 @@
-﻿
-namespace KingHotelProject.Application.DTOs
+﻿namespace KingHotelProject.Application.DTOs
 {
     public class DishResponseDto
     {

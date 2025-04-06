@@ -8,7 +8,7 @@ using MediatR;
 
 namespace KingHotelProject.Application.Features.Dishes.Commands
 {
-    public class UpdateDishCommand : IRequest, INotification
+    public class UpdateDishCommand : IRequest
     {
         public Guid Id { get; set; }
         public DishUpdateDto DishUpdateDto { get; set; }
@@ -60,4 +60,3 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
         }
     }
 }
-

@@ -1,5 +1,4 @@
-﻿
-using KingHotelProject.Core.Enums;
+﻿using KingHotelProject.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace KingHotelProject.Core.Entities
@@ -34,6 +33,3 @@ namespace KingHotelProject.Core.Entities
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }
 }
-
-
-

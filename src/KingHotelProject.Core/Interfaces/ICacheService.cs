@@ -1,5 +1,4 @@
-﻿
-namespace KingHotelProject.Core.Interfaces
+﻿namespace KingHotelProject.Core.Interfaces
 {
     public interface ICacheService
     {

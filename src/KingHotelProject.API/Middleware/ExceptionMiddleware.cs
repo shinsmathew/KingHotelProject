@@ -4,12 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace KingHotelProject.API.Middleware
 {
@@ -142,18 +138,6 @@ namespace KingHotelProject.API.Middleware
                     }
                     break;
 
-                case OperationCanceledException:
-                    context.Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-                    problemDetails = new ProblemDetails
-                    {
-                        Title = "Request Cancelled",
-                        Status = context.Response.StatusCode,
-                        Detail = "The request was cancelled",
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.6.4",
-                        Instance = context.Request.Path
-                    };
-                    break;
-
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     problemDetails = new ProblemDetails
@@ -165,8 +149,6 @@ namespace KingHotelProject.API.Middleware
                         Instance = context.Request.Path
                     };
                     break;
-
-
             }
 
             // Add exception stack trace in development
@@ -184,7 +166,4 @@ namespace KingHotelProject.API.Middleware
             await context.Response.WriteAsync(JsonSerializer.Serialize(problemDetails, options));
         }
     }
-
-   
-    
 }

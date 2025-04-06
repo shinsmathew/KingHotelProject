@@ -11,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System.Text;
 
-
 namespace KingHotelProject.API.Extensions
 {
     public static class ServiceExtensions
@@ -41,18 +40,12 @@ namespace KingHotelProject.API.Extensions
             services.AddScoped<IHotelRepository, HotelRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-
-           
         }
 
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IIdentityService, IdentityService>();
-
-            // Add HttpContextAccessor for accessing current user
             services.AddHttpContextAccessor();
-
-            // Add memory cache for temporary caching
             services.AddMemoryCache();
         }
 
@@ -78,27 +71,23 @@ namespace KingHotelProject.API.Extensions
                 };
             });
         }
+
         public static void ConfigureMediatR(this IServiceCollection services)
         {
             services.AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(typeof(Application.AssemblyReference).Assembly);
-
+                cfg.RegisterServicesFromAssembly(typeof(Application.Features.Hotels.Queries.GetAllHotelsQuery).Assembly);
             });
-
-
         }
 
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Application.Mappings.MappingProfile));
-
-
         }
 
         public static void ConfigureFluentValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(typeof(Application.AssemblyReference).Assembly);
+            services.AddValidatorsFromAssembly(typeof(Application.Features.Hotels.Validators.HotelCreateValidator).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
         }

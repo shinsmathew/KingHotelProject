@@ -1,5 +1,4 @@
-﻿
-using KingHotelProject.Core.Interfaces;
+﻿using KingHotelProject.Core.Interfaces;
 using StackExchange.Redis;
 using System.Text.Json;
 

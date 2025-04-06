@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using KingHotelProject.Application.DTOs;
+﻿using KingHotelProject.Application.DTOs;
 using KingHotelProject.Application.Features.Hotels.Commands;
 using KingHotelProject.Application.Features.Hotels.Queries;
 using MediatR;
@@ -15,17 +13,10 @@ namespace KingHotelProject.API.Controllers
     public class HotelsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IValidator<HotelCreateDto> _createValidator;
-        private readonly IValidator<HotelUpdateDto> _updateValidator;
 
-        public HotelsController(
-            IMediator mediator,
-            IValidator<HotelCreateDto> createValidator,
-            IValidator<HotelUpdateDto> updateValidator)
+        public HotelsController(IMediator mediator)
         {
             _mediator = mediator;
-            _createValidator = createValidator;
-            _updateValidator = updateValidator;
         }
 
         [HttpGet]
@@ -58,13 +49,6 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<HotelResponseDto>> Create(HotelCreateDto hotelCreateDto)
         {
-            var validationResult = await _createValidator.ValidateAsync(hotelCreateDto);
-            if (!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-                return ValidationProblem(ModelState);
-            }
-
             var command = new CreateHotelCommand { HotelCreateDto = hotelCreateDto };
             var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id = result.HotelId }, result);
@@ -80,13 +64,6 @@ namespace KingHotelProject.API.Controllers
             if (id == Guid.Empty)
             {
                 return BadRequest("Invalid ID format");
-            }
-
-            var validationResult = await _updateValidator.ValidateAsync(hotelUpdateDto);
-            if (!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-                return ValidationProblem(ModelState);
             }
 
             var command = new UpdateHotelCommand { Id = id, HotelUpdateDto = hotelUpdateDto };
@@ -111,4 +88,3 @@ namespace KingHotelProject.API.Controllers
         }
     }
 }
-

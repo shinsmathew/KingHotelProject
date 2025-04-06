@@ -46,4 +46,3 @@ namespace KingHotelProject.Application.Features.Hotels.Queries
         }
     }
 }
-

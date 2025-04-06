@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
-using KingHotelProject.Application.DTOs;
+﻿using KingHotelProject.Application.DTOs;
 using KingHotelProject.Application.Features.Dishes.Commands;
 using KingHotelProject.Application.Features.Dishes.Queries;
 using MediatR;
@@ -15,14 +13,10 @@ namespace KingHotelProject.API.Controllers
     public class DishesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IValidator<DishCreateDto> _createValidator;
-        private readonly IValidator<DishUpdateDto> _updateValidator;
 
-        public DishesController(IMediator mediator,IValidator<DishCreateDto> createValidator,IValidator<DishUpdateDto> updateValidator)
+        public DishesController(IMediator mediator)
         {
             _mediator = mediator;
-            _createValidator = createValidator;
-            _updateValidator = updateValidator;
         }
 
         [HttpGet]
@@ -55,13 +49,6 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<DishResponseDto>> Create(DishCreateDto dishCreateDto)
         {
-            var validationResult = await _createValidator.ValidateAsync(dishCreateDto);
-            if (!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-                return ValidationProblem(ModelState);
-            }
-
             var command = new CreateDishCommand { DishCreateDto = dishCreateDto };
             var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id = result.DishId }, result);
@@ -77,13 +64,6 @@ namespace KingHotelProject.API.Controllers
             if (id == Guid.Empty)
             {
                 return BadRequest("Invalid ID format");
-            }
-
-            var validationResult = await _updateValidator.ValidateAsync(dishUpdateDto);
-            if (!validationResult.IsValid)
-            {
-                validationResult.AddToModelState(ModelState);
-                return ValidationProblem(ModelState);
             }
 
             var command = new UpdateDishCommand { Id = id, DishUpdateDto = dishUpdateDto };
@@ -123,4 +103,3 @@ namespace KingHotelProject.API.Controllers
         }
     }
 }
-

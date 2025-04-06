@@ -1,6 +1,4 @@
-﻿
-using KingHotelProject.Core.Entities;
-using System.Threading.Tasks;
+﻿using KingHotelProject.Core.Entities;
 
 namespace KingHotelProject.Core.Interfaces
 {

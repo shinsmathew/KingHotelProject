@@ -1,10 +1,8 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
-using KingHotelProject.Infrastructure.Identity;
 using MediatR;
 
 namespace KingHotelProject.Application.Features.Users.Commands
@@ -20,13 +18,15 @@ namespace KingHotelProject.Application.Features.Users.Commands
         private readonly IIdentityService _identityService;
         private readonly IValidator<UserRegisterDto> _validator;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IIdentityService identityService, IValidator<UserRegisterDto> validator)
+        public RegisterUserCommandHandler(
+            IUserRepository userRepository,
+            IIdentityService identityService,
+            IValidator<UserRegisterDto> validator)
         {
             _userRepository = userRepository;
             _identityService = identityService;
             _validator = validator;
         }
-
 
         public async Task<AuthResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
@@ -79,7 +79,5 @@ namespace KingHotelProject.Application.Features.Users.Commands
                 }
             };
         }
-
     }
 }
-

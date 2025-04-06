@@ -8,7 +8,7 @@ using MediatR;
 
 namespace KingHotelProject.Application.Features.Hotels.Commands
 {
-    public class UpdateHotelCommand : IRequest, INotification
+    public class UpdateHotelCommand : IRequest
     {
         public Guid Id { get; set; }
         public HotelUpdateDto HotelUpdateDto { get; set; }
@@ -57,4 +57,3 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
         }
     }
 }
-

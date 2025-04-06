@@ -1,5 +1,4 @@
-﻿
-using KingHotelProject.Core.Entities;
+﻿using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Interfaces;
 using KingHotelProject.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -39,7 +38,7 @@ namespace KingHotelProject.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return dish;
         }
-      
+
         public async Task UpdateAsync(Dish dish)
         {
             _context.Dishes.Update(dish);

@@ -60,4 +60,3 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
         }
     }
 }
-

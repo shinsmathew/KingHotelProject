@@ -32,6 +32,5 @@ namespace KingHotelProject.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
-
     }
 }

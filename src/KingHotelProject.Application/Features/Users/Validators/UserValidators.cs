@@ -1,5 +1,4 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
 
 namespace KingHotelProject.Application.Features.Users.Validators
@@ -31,6 +30,19 @@ namespace KingHotelProject.Application.Features.Users.Validators
                 .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter")
                 .Matches("[0-9]").WithMessage("Password must contain at least one number")
                 .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character");
+        }
+    }
+
+    public class UserLoginValidator : AbstractValidator<UserLoginDto>
+    {
+        public UserLoginValidator()
+        {
+            RuleFor(x => x.UserName)
+                .NotEmpty().WithMessage("Username is required")
+                .MaximumLength(50).WithMessage("Username must not exceed 50 characters");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is required");
         }
     }
 }

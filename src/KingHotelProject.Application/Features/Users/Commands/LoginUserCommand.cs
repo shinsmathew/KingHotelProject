@@ -1,11 +1,8 @@
 ﻿using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
-using KingHotelProject.Infrastructure.Identity;
 using MediatR;
 using FluentValidation;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace KingHotelProject.Application.Features.Users.Commands
 {
@@ -20,7 +17,10 @@ namespace KingHotelProject.Application.Features.Users.Commands
         private readonly IIdentityService _identityService;
         private readonly IValidator<UserLoginDto> _validator;
 
-        public LoginUserCommandHandler(IUserRepository userRepository,IIdentityService identityService,IValidator<UserLoginDto> validator)
+        public LoginUserCommandHandler(
+            IUserRepository userRepository,
+            IIdentityService identityService,
+            IValidator<UserLoginDto> validator)
         {
             _userRepository = userRepository;
             _identityService = identityService;
@@ -38,7 +38,6 @@ namespace KingHotelProject.Application.Features.Users.Commands
             var user = await _userRepository.GetByUserNameAsync(request.UserLoginDto.UserName);
             if (user == null)
             {
-                
                 throw new Core.Exceptions.UnauthorizedAccessException("Invalid credentials");
             }
 

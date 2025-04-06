@@ -1,34 +1,21 @@
 ﻿using KingHotelProject.Core.Entities;
-using KingHotelProject.Core.Enums;
 using KingHotelProject.Core.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Security.Claims;
-
 
 namespace KingHotelProject.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserRepository _userRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public IdentityService(
-            IConfiguration configuration,
-            IUserRepository userRepository,
-            IHttpContextAccessor httpContextAccessor)
+        public IdentityService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _userRepository = userRepository;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public string GenerateJwtToken(User user)
@@ -67,7 +54,5 @@ namespace KingHotelProject.Infrastructure.Identity
             var hashedProvidedPassword = HashPassword(providedPassword);
             return hashedPassword == hashedProvidedPassword;
         }
-
-        
     }
 }

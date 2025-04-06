@@ -1,5 +1,4 @@
-﻿
-using KingHotelProject.Core.Entities;
+﻿using KingHotelProject.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace KingHotelProject.Infrastructure.Data

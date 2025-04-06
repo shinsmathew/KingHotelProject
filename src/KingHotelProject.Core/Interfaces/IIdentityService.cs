@@ -1,5 +1,4 @@
 ﻿using KingHotelProject.Core.Entities;
-using System.Threading.Tasks;
 
 namespace KingHotelProject.Core.Interfaces
 {
@@ -8,6 +7,5 @@ namespace KingHotelProject.Core.Interfaces
         string GenerateJwtToken(User user);
         string HashPassword(string password);
         bool VerifyPassword(string hashedPassword, string providedPassword);
-
     }
 }

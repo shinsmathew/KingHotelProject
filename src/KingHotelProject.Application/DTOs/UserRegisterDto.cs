@@ -1,5 +1,4 @@
-﻿
-using KingHotelProject.Core.Enums;
+﻿using KingHotelProject.Core.Enums;
 
 namespace KingHotelProject.Application.DTOs
 {
@@ -36,4 +35,3 @@ namespace KingHotelProject.Application.DTOs
         public UserResponseDto User { get; set; }
     }
 }
-

@@ -1,4 +1,3 @@
-
 using KingHotelProject.API.Extensions;
 using KingHotelProject.API.Middleware;
 using KingHotelProject.Infrastructure.Data;
@@ -13,7 +12,6 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Configure services
 builder.Services.ConfigureDbContext(builder.Configuration);
@@ -33,9 +31,7 @@ builder.Host.UseSerilog((context, configuration) =>
 
 var app = builder.Build();
 
-
-
-
+// Health check endpoint
 app.UseHealthChecks("/health", new HealthCheckOptions
 {
     ResponseWriter = async (context, report) =>
@@ -55,7 +51,6 @@ app.UseHealthChecks("/health", new HealthCheckOptions
                 }));
     }
 });
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -1,5 +1,4 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using KingHotelProject.Application.DTOs;
 using KingHotelProject.Core.Entities;
 

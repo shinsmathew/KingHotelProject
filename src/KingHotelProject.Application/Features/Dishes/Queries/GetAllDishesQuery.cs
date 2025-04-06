@@ -16,7 +16,10 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
         private readonly ICacheService _cacheService;
         private const string CACHE_KEY = "AllDishes";
 
-        public GetAllDishesQueryHandler(IDishRepository dishRepository, IMapper mapper, ICacheService cacheService)
+        public GetAllDishesQueryHandler(
+            IDishRepository dishRepository,
+            IMapper mapper,
+            ICacheService cacheService)
         {
             _dishRepository = dishRepository;
             _mapper = mapper;
@@ -37,7 +40,7 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
             var result = _mapper.Map<IEnumerable<DishResponseDto>>(dishes);
 
             // Cache the result
-            await _cacheService.SetAsync(CACHE_KEY, result, TimeSpan.FromHours(12));
+            await _cacheService.SetAsync(CACHE_KEY, result, TimeSpan.FromMinutes(5));
 
             return result;
         }
