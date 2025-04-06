@@ -1,6 +1,7 @@
-﻿// KingHotelProject.Application/Features/Dishes/Queries/GetDishesByHotelIdQuery.cs
-using AutoMapper;
+﻿using AutoMapper;
 using KingHotelProject.Application.DTOs;
+using KingHotelProject.Core.Entities;
+using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
 using MediatR;
 
@@ -14,15 +15,18 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
     public class GetDishesByHotelIdQueryHandler : IRequestHandler<GetDishesByHotelIdQuery, IEnumerable<DishResponseDto>>
     {
         private readonly IDishRepository _dishRepository;
+        private readonly IHotelRepository _hotelRepository;
         private readonly IMapper _mapper;
         private readonly ICacheService _cacheService;
 
         public GetDishesByHotelIdQueryHandler(
             IDishRepository dishRepository,
+            IHotelRepository hotelRepository,
             IMapper mapper,
             ICacheService cacheService)
         {
             _dishRepository = dishRepository;
+            _hotelRepository = hotelRepository;
             _mapper = mapper;
             _cacheService = cacheService;
         }
@@ -38,6 +42,13 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
                 return cachedDishes;
             }
 
+            // Verify hotel exists
+            var hotel = await _hotelRepository.GetByIdAsync(request.HotelId);
+            if (hotel == null)
+            {
+                throw new NotFoundException(nameof(Hotel), request.HotelId);
+            }
+
             // If not in cache, get from database
             var dishes = await _dishRepository.GetByHotelIdAsync(request.HotelId);
             var result = _mapper.Map<IEnumerable<DishResponseDto>>(dishes);
@@ -49,3 +60,4 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
         }
     }
 }
+

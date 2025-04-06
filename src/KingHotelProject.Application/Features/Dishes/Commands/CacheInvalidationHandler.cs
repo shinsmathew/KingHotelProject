@@ -23,26 +23,53 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
 
         public async Task Handle(CreateDishCommand notification, CancellationToken cancellationToken)
         {
-            await InvalidateCache(notification.DishCreateDto.HotelId);
+            // Invalidate all dishes cache
+            await _cacheService.RemoveAsync("AllDishes");
+
+            // Invalidate hotel-specific dishes cache
+            await _cacheService.RemoveAsync($"DishesByHotel_{notification.DishCreateDto.HotelId}");
+
+            // Invalidate hotel cache if it exists
+            await _cacheService.RemoveAsync($"Hotel_{notification.DishCreateDto.HotelId}");
         }
 
         public async Task Handle(UpdateDishCommand notification, CancellationToken cancellationToken)
         {
             var dish = await _dishRepository.GetByIdAsync(notification.Id);
-            await InvalidateCache(dish.HotelId);
+            if (dish != null)
+            {
+                // Invalidate all dishes cache
+                await _cacheService.RemoveAsync("AllDishes");
+
+                // Invalidate dish-specific cache
+                await _cacheService.RemoveAsync($"Dish_{notification.Id}");
+
+                // Invalidate hotel-specific dishes cache
+                await _cacheService.RemoveAsync($"DishesByHotel_{dish.HotelId}");
+
+                // Invalidate hotel cache if it exists
+                await _cacheService.RemoveAsync($"Hotel_{dish.HotelId}");
+            }
         }
 
         public async Task Handle(DeleteDishCommand notification, CancellationToken cancellationToken)
         {
             var dish = await _dishRepository.GetByIdAsync(notification.Id);
-            await InvalidateCache(dish.HotelId);
-        }
+            if (dish != null)
+            {
+                // Invalidate all dishes cache
+                await _cacheService.RemoveAsync("AllDishes");
 
-        private async Task InvalidateCache(Guid hotelId)
-        {
-            await _cacheService.RemoveAsync("AllDishes");
-            await _cacheService.RemoveAsync($"DishesByHotel_{hotelId}");
-            // Invalidate other related cache keys if needed
+                // Invalidate dish-specific cache
+                await _cacheService.RemoveAsync($"Dish_{notification.Id}");
+
+                // Invalidate hotel-specific dishes cache
+                await _cacheService.RemoveAsync($"DishesByHotel_{dish.HotelId}");
+
+                // Invalidate hotel cache if it exists
+                await _cacheService.RemoveAsync($"Hotel_{dish.HotelId}");
+            }
         }
     }
 }
+

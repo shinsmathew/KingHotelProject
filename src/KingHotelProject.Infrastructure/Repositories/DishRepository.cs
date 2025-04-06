@@ -15,19 +15,6 @@ namespace KingHotelProject.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Dish> AddAsync(Dish dish)
-        {
-            await _context.Dishes.AddAsync(dish);
-            await _context.SaveChangesAsync();
-            return dish;
-        }
-
-        public async Task DeleteAsync(Dish dish)
-        {
-            _context.Dishes.Remove(dish);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<IEnumerable<Dish>> GetAllAsync()
         {
             return await _context.Dishes.Include(d => d.Hotel).ToListAsync();
@@ -46,9 +33,22 @@ namespace KingHotelProject.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Dish> AddAsync(Dish dish)
+        {
+            await _context.Dishes.AddAsync(dish);
+            await _context.SaveChangesAsync();
+            return dish;
+        }
+      
         public async Task UpdateAsync(Dish dish)
         {
             _context.Dishes.Update(dish);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Dish dish)
+        {
+            _context.Dishes.Remove(dish);
             await _context.SaveChangesAsync();
         }
     }
