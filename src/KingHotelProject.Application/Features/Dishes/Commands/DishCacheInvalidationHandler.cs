@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KingHotelProject.Application.Features.Dishes.Commands
 {
-    public class CacheInvalidationHandler :
+    public class DishCacheInvalidationHandler :
         INotificationHandler<CreateDishCommand>,
         INotificationHandler<UpdateDishCommand>,
         INotificationHandler<DeleteDishCommand>
@@ -13,7 +13,7 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
         private readonly ICacheService _cacheService;
         private readonly IDishRepository _dishRepository;
 
-        public CacheInvalidationHandler(
+        public DishCacheInvalidationHandler(
             ICacheService cacheService,
             IDishRepository dishRepository)
         {
