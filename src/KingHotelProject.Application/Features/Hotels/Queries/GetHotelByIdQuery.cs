@@ -33,14 +33,14 @@ namespace KingHotelProject.Application.Features.Hotels.Queries
             var cacheKey = $"Hotel_{request.Id}";
 
             // Check cache first
-            var cachedHotel = await _cacheService.GetAsync<HotelResponseDto>(cacheKey);
+            var cachedHotel = await _cacheService.GetRedisCacheAsync<HotelResponseDto>(cacheKey);
             if (cachedHotel != null)
             {
                 return cachedHotel;
             }
 
             // If not in cache, get from database
-            var hotel = await _hotelRepository.GetByIdAsync(request.Id);
+            var hotel = await _hotelRepository.GetHotelByIdAsync(request.Id);
             if (hotel == null)
             {
                 throw new NotFoundException(nameof(Hotel), request.Id);
@@ -49,7 +49,7 @@ namespace KingHotelProject.Application.Features.Hotels.Queries
             var result = _mapper.Map<HotelResponseDto>(hotel);
 
             // Cache the result
-            await _cacheService.SetAsync(cacheKey, result, TimeSpan.FromMinutes(5));
+            await _cacheService.SetRedisCacheAsync(cacheKey, result, TimeSpan.FromMinutes(5));
 
             return result;
         }

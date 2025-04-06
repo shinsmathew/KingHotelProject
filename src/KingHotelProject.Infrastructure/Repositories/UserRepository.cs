@@ -14,7 +14,7 @@ namespace KingHotelProject.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User> AddAsync(User user)
+        public async Task<User> AddUserAsync(User user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();

@@ -40,10 +40,10 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
             }
 
             var hotel = _mapper.Map<Hotel>(request.HotelCreateDto);
-            var createdHotel = await _hotelRepository.AddAsync(hotel);
+            var createdHotel = await _hotelRepository.AddHotelAsync(hotel);
 
             // Invalidate the AllHotels cache
-            await _cacheService.RemoveAsync("AllHotels");
+            await _cacheService.RemoveRedisCacheAsync("AllHotels");
 
             return _mapper.Map<HotelResponseDto>(createdHotel);
         }

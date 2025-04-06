@@ -68,7 +68,7 @@ namespace KingHotelProject.Application.Features.Users.Commands
                 Role = (UserRole)request.UserRegisterDto.Role
             };
 
-            await _userRepository.AddAsync(user);
+            await _userRepository.AddUserAsync(user);
 
             var token = _identityService.GenerateJwtToken(user);
 

@@ -25,19 +25,19 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
 
         public async Task Handle(DeleteHotelCommand request, CancellationToken cancellationToken)
         {
-            var hotel = await _hotelRepository.GetByIdAsync(request.Id);
+            var hotel = await _hotelRepository.GetHotelByIdAsync(request.Id);
             if (hotel == null)
             {
                 throw new NotFoundException(nameof(Hotel), request.Id);
             }
 
-            await _hotelRepository.DeleteAsync(hotel);
+            await _hotelRepository.DeleteHotelAsync(hotel);
 
             // Invalidate caches
-            await _cacheService.RemoveAsync("AllHotels");
-            await _cacheService.RemoveAsync($"Hotel_{request.Id}");
-            await _cacheService.RemoveAsync($"DishesByHotel_{request.Id}");
-            await _cacheService.RemoveAsync("AllDishes"); 
+            await _cacheService.RemoveRedisCacheAsync("AllHotels");
+            await _cacheService.RemoveRedisCacheAsync($"Hotel_{request.Id}");
+            await _cacheService.RemoveRedisCacheAsync($"DishesByHotel_{request.Id}");
+            await _cacheService.RemoveRedisCacheAsync("AllDishes"); 
         }
     }
 }

@@ -29,18 +29,18 @@ namespace KingHotelProject.Application.Features.Hotels.Queries
         public async Task<IEnumerable<HotelResponseDto>> Handle(GetAllHotelsQuery request, CancellationToken cancellationToken)
         {
             // Check cache first
-            var cachedHotels = await _cacheService.GetAsync<IEnumerable<HotelResponseDto>>(CACHE_KEY);
+            var cachedHotels = await _cacheService.GetRedisCacheAsync<IEnumerable<HotelResponseDto>>(CACHE_KEY);
             if (cachedHotels != null)
             {
                 return cachedHotels;
             }
 
             // If not in cache, get from database
-            var hotels = await _hotelRepository.GetAllAsync();
+            var hotels = await _hotelRepository.GetAllHotelAsync();
             var result = _mapper.Map<IEnumerable<HotelResponseDto>>(hotels);
 
             // Cache the result
-            await _cacheService.SetAsync(CACHE_KEY, result, TimeSpan.FromMinutes(5));
+            await _cacheService.SetRedisCacheAsync(CACHE_KEY, result, TimeSpan.FromMinutes(5));
 
             return result;
         }

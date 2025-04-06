@@ -14,7 +14,7 @@ namespace KingHotelProject.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Hotel>> GetAllAsync()
+        public async Task<IEnumerable<Hotel>> GetAllHotelAsync()
         {
             return await _context.Hotels
                 .AsNoTracking()
@@ -22,7 +22,7 @@ namespace KingHotelProject.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<Hotel> GetByIdAsync(Guid id)
+        public async Task<Hotel> GetHotelByIdAsync(Guid id)
         {
             return await _context.Hotels
                  .AsNoTracking()
@@ -30,20 +30,20 @@ namespace KingHotelProject.Infrastructure.Repositories
                 .FirstOrDefaultAsync(h => h.HotelId == id);
         }
 
-        public async Task<Hotel> AddAsync(Hotel hotel)
+        public async Task<Hotel> AddHotelAsync(Hotel hotel)
         {
             await _context.Hotels.AddAsync(hotel);
             await _context.SaveChangesAsync();
             return hotel;
         }
 
-        public async Task UpdateAsync(Hotel hotel)
+        public async Task UpdateHotelAsync(Hotel hotel)
         {
             _context.Hotels.Update(hotel);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Hotel hotel)
+        public async Task DeleteHotelAsync(Hotel hotel)
         {
             _context.Hotels.Remove(hotel);
             await _context.SaveChangesAsync();

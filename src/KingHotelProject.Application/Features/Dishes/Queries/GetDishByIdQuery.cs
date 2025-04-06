@@ -33,14 +33,14 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
             var cacheKey = $"Dish_{request.Id}";
 
             // Check cache first
-            var cachedDish = await _cacheService.GetAsync<DishResponseDto>(cacheKey);
+            var cachedDish = await _cacheService.GetRedisCacheAsync<DishResponseDto>(cacheKey);
             if (cachedDish != null)
             {
                 return cachedDish;
             }
 
             // If not in cache, get from database
-            var dish = await _dishRepository.GetByIdAsync(request.Id);
+            var dish = await _dishRepository.GetDishByIdAsync(request.Id);
             if (dish == null)
             {
                 throw new NotFoundException(nameof(Dish), request.Id);
@@ -49,7 +49,7 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
             var result = _mapper.Map<DishResponseDto>(dish);
 
             // Cache the result
-            await _cacheService.SetAsync(cacheKey, result, TimeSpan.FromMinutes(5));
+            await _cacheService.SetRedisCacheAsync(cacheKey, result, TimeSpan.FromMinutes(5));
 
             return result;
         }

@@ -4,10 +4,10 @@ namespace KingHotelProject.Core.Interfaces
 {
     public interface IHotelRepository
     {
-        Task<IEnumerable<Hotel>> GetAllAsync();
-        Task<Hotel> GetByIdAsync(Guid id);
-        Task<Hotel> AddAsync(Hotel hotel);
-        Task UpdateAsync(Hotel hotel);
-        Task DeleteAsync(Hotel hotel);
+        Task<IEnumerable<Hotel>> GetAllHotelAsync();
+        Task<Hotel> GetHotelByIdAsync(Guid id);
+        Task<Hotel> AddHotelAsync(Hotel hotel);
+        Task UpdateHotelAsync(Hotel hotel);
+        Task DeleteHotelAsync(Hotel hotel);
     }
 }

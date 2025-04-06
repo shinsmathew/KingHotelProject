@@ -25,7 +25,7 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
 
         public async Task Handle(DeleteDishCommand request, CancellationToken cancellationToken)
         {
-            var dish = await _dishRepository.GetByIdAsync(request.Id);
+            var dish = await _dishRepository.GetDishByIdAsync(request.Id);
             if (dish == null)
             {
                 throw new NotFoundException(nameof(Dish), request.Id);
@@ -33,12 +33,12 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
 
             var hotelId = dish.HotelId;
 
-            await _dishRepository.DeleteAsync(dish);
+            await _dishRepository.DeleteDishAsync(dish);
 
             // Invalidate relevant caches
-            await _cacheService.RemoveAsync("AllDishes");
-            await _cacheService.RemoveAsync($"DishesByHotel_{hotelId}");
-            await _cacheService.RemoveAsync($"Dish_{request.Id}");
+            await _cacheService.RemoveRedisCacheAsync("AllDishes");
+            await _cacheService.RemoveRedisCacheAsync($"DishesByHotel_{hotelId}");
+            await _cacheService.RemoveRedisCacheAsync($"Dish_{request.Id}");
         }
     }
 }

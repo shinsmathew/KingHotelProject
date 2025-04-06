@@ -24,14 +24,14 @@ namespace KingHotelProject.Infrastructure.Caching
             };
         }
 
-        public async Task<T> GetAsync<T>(string key)
+        public async Task<T> GetRedisCacheAsync<T>(string key)
         {
             var value = await _cache.StringGetAsync(key);
             return value.HasValue ?
                 JsonSerializer.Deserialize<T>(value, _jsonOptions) : default;
         }
 
-        public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
+        public async Task SetRedisCacheAsync<T>(string key, T value, TimeSpan? expiry = null)
         {
             await _cache.StringSetAsync(
                            key,
@@ -39,7 +39,7 @@ namespace KingHotelProject.Infrastructure.Caching
                            expiry);
         }
 
-        public async Task RemoveAsync(string key)
+        public async Task RemoveRedisCacheAsync(string key)
         {
             await _cache.KeyDeleteAsync(key);
         }

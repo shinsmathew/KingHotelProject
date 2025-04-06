@@ -29,18 +29,18 @@ namespace KingHotelProject.Application.Features.Dishes.Queries
         public async Task<IEnumerable<DishResponseDto>> Handle(GetAllDishesQuery request, CancellationToken cancellationToken)
         {
             // Check cache first
-            var cachedDishes = await _cacheService.GetAsync<IEnumerable<DishResponseDto>>(CACHE_KEY);
+            var cachedDishes = await _cacheService.GetRedisCacheAsync<IEnumerable<DishResponseDto>>(CACHE_KEY);
             if (cachedDishes != null)
             {
                 return cachedDishes;
             }
 
             // If not in cache, get from database
-            var dishes = await _dishRepository.GetAllAsync();
+            var dishes = await _dishRepository.GetAllDishAsync();
             var result = _mapper.Map<IEnumerable<DishResponseDto>>(dishes);
 
             // Cache the result
-            await _cacheService.SetAsync(CACHE_KEY, result, TimeSpan.FromMinutes(5));
+            await _cacheService.SetRedisCacheAsync(CACHE_KEY, result, TimeSpan.FromMinutes(5));
 
             return result;
         }

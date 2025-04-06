@@ -41,19 +41,19 @@ namespace KingHotelProject.Application.Features.Hotels.Commands
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var hotel = await _hotelRepository.GetByIdAsync(request.Id);
+            var hotel = await _hotelRepository.GetHotelByIdAsync(request.Id);
             if (hotel == null)
             {
                 throw new NotFoundException(nameof(Hotel), request.Id);
             }
 
             _mapper.Map(request.HotelUpdateDto, hotel);
-            await _hotelRepository.UpdateAsync(hotel);
+            await _hotelRepository.UpdateHotelAsync(hotel);
 
             // Invalidate caches
-            await _cacheService.RemoveAsync("AllHotels");
-            await _cacheService.RemoveAsync($"Hotel_{request.Id}");
-            await _cacheService.RemoveAsync($"DishesByHotel_{request.Id}");
+            await _cacheService.RemoveRedisCacheAsync("AllHotels");
+            await _cacheService.RemoveRedisCacheAsync($"Hotel_{request.Id}");
+            await _cacheService.RemoveRedisCacheAsync($"DishesByHotel_{request.Id}");
         }
     }
 }

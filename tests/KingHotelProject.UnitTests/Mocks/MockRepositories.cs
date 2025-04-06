@@ -42,23 +42,23 @@ namespace KingHotelProject.UnitTests.Mocks
 
             var mockRepo = new Mock<IHotelRepository>();
 
-            mockRepo.Setup(repo => repo.GetAllAsync())
+            mockRepo.Setup(repo => repo.GetAllHotelAsync())
                 .ReturnsAsync(hotels);
 
-            mockRepo.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
+            mockRepo.Setup(repo => repo.GetHotelByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Guid id) => hotels.FirstOrDefault(h => h.HotelId == id));
 
-            mockRepo.Setup(repo => repo.AddAsync(It.IsAny<Hotel>()))
+            mockRepo.Setup(repo => repo.AddHotelAsync(It.IsAny<Hotel>()))
                 .ReturnsAsync((Hotel hotel) =>
                 {
                     hotels.Add(hotel);
                     return hotel;
                 });
 
-            mockRepo.Setup(repo => repo.UpdateAsync(It.IsAny<Hotel>()))
+            mockRepo.Setup(repo => repo.UpdateHotelAsync(It.IsAny<Hotel>()))
                 .Returns(Task.CompletedTask);
 
-            mockRepo.Setup(repo => repo.DeleteAsync(It.IsAny<Hotel>()))
+            mockRepo.Setup(repo => repo.DeleteHotelAsync(It.IsAny<Hotel>()))
                 .Returns(Task.CompletedTask)
                 .Callback<Hotel>((hotel) => hotels.Remove(hotel));
 
@@ -100,26 +100,26 @@ namespace KingHotelProject.UnitTests.Mocks
 
             var mockRepo = new Mock<IDishRepository>();
 
-            mockRepo.Setup(repo => repo.GetAllAsync())
+            mockRepo.Setup(repo => repo.GetAllDishAsync())
                 .ReturnsAsync(dishes);
 
-            mockRepo.Setup(repo => repo.GetByIdAsync(It.IsAny<Guid>()))
+            mockRepo.Setup(repo => repo.GetDishByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Guid id) => dishes.FirstOrDefault(d => d.DishId == id));
 
             mockRepo.Setup(repo => repo.GetByHotelIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Guid hotelId) => dishes.Where(d => d.HotelId == hotelId).ToList());
 
-            mockRepo.Setup(repo => repo.AddAsync(It.IsAny<Dish>()))
+            mockRepo.Setup(repo => repo.AddDishAsync(It.IsAny<Dish>()))
                 .ReturnsAsync((Dish dish) =>
                 {
                     dishes.Add(dish);
                     return dish;
                 });
 
-            mockRepo.Setup(repo => repo.UpdateAsync(It.IsAny<Dish>()))
+            mockRepo.Setup(repo => repo.UpdateDishAsync(It.IsAny<Dish>()))
                 .Returns(Task.CompletedTask);
 
-            mockRepo.Setup(repo => repo.DeleteAsync(It.IsAny<Dish>()))
+            mockRepo.Setup(repo => repo.DeleteDishAsync(It.IsAny<Dish>()))
                 .Returns(Task.CompletedTask)
                 .Callback<Dish>((dish) => dishes.Remove(dish));
 
@@ -162,7 +162,7 @@ namespace KingHotelProject.UnitTests.Mocks
             mockRepo.Setup(repo => repo.GetByEmailAsync(It.IsAny<string>()))
                 .ReturnsAsync((string email) => users.FirstOrDefault(u => u.Email == email));
 
-            mockRepo.Setup(repo => repo.AddAsync(It.IsAny<User>()))
+            mockRepo.Setup(repo => repo.AddUserAsync(It.IsAny<User>()))
                 .ReturnsAsync((User user) =>
                 {
                     users.Add(user);
@@ -176,13 +176,13 @@ namespace KingHotelProject.UnitTests.Mocks
         {
             var mockCache = new Mock<ICacheService>();
 
-            mockCache.Setup(cache => cache.GetAsync<It.IsAnyType>(It.IsAny<string>()))
+            mockCache.Setup(cache => cache.GetRedisCacheAsync<It.IsAnyType>(It.IsAny<string>()))
                 .ReturnsAsync((string key, Type type) => default);
 
-            mockCache.Setup(cache => cache.SetAsync(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan?>()))
+            mockCache.Setup(cache => cache.SetRedisCacheAsync(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<TimeSpan?>()))
                 .Returns(Task.CompletedTask);
 
-            mockCache.Setup(cache => cache.RemoveAsync(It.IsAny<string>()))
+            mockCache.Setup(cache => cache.RemoveRedisCacheAsync(It.IsAny<string>()))
                 .Returns(Task.CompletedTask);
 
             return mockCache;

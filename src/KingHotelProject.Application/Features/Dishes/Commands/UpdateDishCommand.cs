@@ -43,7 +43,7 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
             }
 
             // Get the dish
-            var dish = await _dishRepository.GetByIdAsync(request.Id);
+            var dish = await _dishRepository.GetDishByIdAsync(request.Id);
             if (dish == null)
             {
                 throw new NotFoundException(nameof(Dish), request.Id);
@@ -51,12 +51,12 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
 
             // Update the dish
             _mapper.Map(request.DishUpdateDto, dish);
-            await _dishRepository.UpdateAsync(dish);
+            await _dishRepository.UpdateDishAsync(dish);
 
             // Invalidate relevant caches
-            await _cacheService.RemoveAsync("AllDishes");
-            await _cacheService.RemoveAsync($"DishesByHotel_{dish.HotelId}");
-            await _cacheService.RemoveAsync($"Dish_{request.Id}");
+            await _cacheService.RemoveRedisCacheAsync("AllDishes");
+            await _cacheService.RemoveRedisCacheAsync($"DishesByHotel_{dish.HotelId}");
+            await _cacheService.RemoveRedisCacheAsync($"Dish_{request.Id}");
         }
     }
 }

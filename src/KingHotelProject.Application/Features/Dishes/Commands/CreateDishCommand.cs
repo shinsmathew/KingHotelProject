@@ -45,7 +45,7 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
             }
 
             // Check if hotel exists
-            var hotel = await _hotelRepository.GetByIdAsync(request.DishCreateDto.HotelId);
+            var hotel = await _hotelRepository.GetHotelByIdAsync(request.DishCreateDto.HotelId);
             if (hotel == null)
             {
                 throw new NotFoundException(nameof(Hotel), request.DishCreateDto.HotelId);
@@ -53,11 +53,11 @@ namespace KingHotelProject.Application.Features.Dishes.Commands
 
             // Create the dish
             var dish = _mapper.Map<Dish>(request.DishCreateDto);
-            var createdDish = await _dishRepository.AddAsync(dish);
+            var createdDish = await _dishRepository.AddDishAsync(dish);
 
             // Invalidate relevant caches
-            await _cacheService.RemoveAsync("AllDishes");
-            await _cacheService.RemoveAsync($"DishesByHotel_{request.DishCreateDto.HotelId}");
+            await _cacheService.RemoveRedisCacheAsync("AllDishes");
+            await _cacheService.RemoveRedisCacheAsync($"DishesByHotel_{request.DishCreateDto.HotelId}");
 
             return _mapper.Map<DishResponseDto>(createdDish);
         }
