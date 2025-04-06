@@ -52,7 +52,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Validation Error",
                         Status = context.Response.StatusCode,
                         Detail = "One or more validation errors occurred",
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                         Instance = context.Request.Path,
                         Errors = validationException.Errors
                             .GroupBy(e => e.PropertyName)
@@ -69,7 +68,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Not Found",
                         Status = context.Response.StatusCode,
                         Detail = notFoundException.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                         Instance = context.Request.Path
                     };
                     break;
@@ -81,7 +79,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Bad Request",
                         Status = context.Response.StatusCode,
                         Detail = badRequestException.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                         Instance = context.Request.Path
                     };
                     break;
@@ -93,7 +90,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Unauthorized",
                         Status = context.Response.StatusCode,
                         Detail = unauthorizedAccessException.Message,
-                        Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
                         Instance = context.Request.Path
                     };
                     break;
@@ -105,7 +101,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Forbidden",
                         Status = context.Response.StatusCode,
                         Detail = forbiddenException.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3",
                         Instance = context.Request.Path
                     };
                     break;
@@ -117,7 +112,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Conflict",
                         Status = context.Response.StatusCode,
                         Detail = conflictException.Message,
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.8",
                         Instance = context.Request.Path
                     };
                     break;
@@ -129,7 +123,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Database Error",
                         Status = context.Response.StatusCode,
                         Detail = "An error occurred while saving to the database",
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                         Instance = context.Request.Path
                     };
                     if (_env.IsDevelopment())
@@ -145,7 +138,6 @@ namespace KingHotelProject.API.Middleware
                         Title = "Internal Server Error",
                         Status = context.Response.StatusCode,
                         Detail = _env.IsDevelopment() ? exception.ToString() : "An unexpected error occurred",
-                        Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
                         Instance = context.Request.Path
                     };
                     break;
