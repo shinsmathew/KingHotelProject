@@ -15,6 +15,11 @@
         public Guid HotelId { get; set; }
     }
 
+    public class DishesBulkCreateDto
+    {
+        public List<DishCreateDto> Dishes { get; set; } = new List<DishCreateDto>();
+    }
+
     public class DishUpdateDto
     {
         public string DishName { get; set; }

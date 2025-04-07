@@ -1,5 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.Features.Dishes.Validators;
+using KingHotelProject.Application.Features.Hotels.Validators;
 using KingHotelProject.Core.Interfaces;
 using KingHotelProject.Infrastructure.Caching;
 using KingHotelProject.Infrastructure.Data;
@@ -85,9 +88,16 @@ namespace KingHotelProject.API.Extensions
             services.AddAutoMapper(typeof(Application.Mappings.MappingProfile));
         }
 
+       
         public static void ConfigureFluentValidation(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(typeof(Application.Features.Hotels.Validators.HotelCreateValidator).Assembly);
+            services.AddValidatorsFromAssembly(typeof(Application.Features.Dishes.Validators.DishCreateValidator).Assembly);
+
+            // Add bulk validators
+            services.AddScoped<IValidator<DishesBulkCreateDto>, DishesBulkCreateValidator>();
+            services.AddScoped<IValidator<HotelsBulkCreateDto>, HotelsBulkCreateValidator>();
+
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
         }

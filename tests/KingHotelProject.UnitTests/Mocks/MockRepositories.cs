@@ -106,9 +106,6 @@ namespace KingHotelProject.UnitTests.Mocks
             mockRepo.Setup(repo => repo.GetDishByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync((Guid id) => dishes.FirstOrDefault(d => d.DishId == id));
 
-            mockRepo.Setup(repo => repo.GetByHotelIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((Guid hotelId) => dishes.Where(d => d.HotelId == hotelId).ToList());
-
             mockRepo.Setup(repo => repo.AddDishAsync(It.IsAny<Dish>()))
                 .ReturnsAsync((Dish dish) =>
                 {

@@ -45,13 +45,13 @@ namespace KingHotelProject.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ProducesResponseType(typeof(DishResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<DishResponseDto>> CreateDishes(DishCreateDto dishCreateDto)
+        public async Task<ActionResult<IEnumerable<DishResponseDto>>> CreateDishesBulk(DishesBulkCreateDto dishesBulkCreateDto)
         {
-            var command = new CreateDishCommand { DishCreateDto = dishCreateDto };
+            var command = new CreateDishesBulkCommand { DishesBulkCreateDto = dishesBulkCreateDto };
             var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetDishesById), new { id = result.DishId }, result);
+            return CreatedAtAction(nameof(GetAllDishes), result);
         }
 
         [Authorize(Roles = "Admin")]
@@ -87,19 +87,7 @@ namespace KingHotelProject.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("by-hotel/{hotelId}")]
-        [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<DishResponseDto>>> GetDishesByHotelId(Guid hotelId)
-        {
-            if (hotelId == Guid.Empty)
-            {
-                return BadRequest("Invalid hotel ID format");
-            }
-
-            var query = new GetDishesByHotelIdQuery { HotelId = hotelId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
+       
+       
     }
 }

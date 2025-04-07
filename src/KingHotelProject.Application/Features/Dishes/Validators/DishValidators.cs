@@ -20,6 +20,18 @@ namespace KingHotelProject.Application.Features.Dishes.Validators
         }
     }
 
+    public class DishesBulkCreateValidator : AbstractValidator<DishesBulkCreateDto>
+    {
+        public DishesBulkCreateValidator()
+        {
+            RuleFor(x => x.Dishes)
+                .NotEmpty().WithMessage("At least one dish is required")
+                .Must(d => d.Count <= 100).WithMessage("Cannot create more than 100 dishes at once");
+
+            RuleForEach(x => x.Dishes).SetValidator(new DishCreateValidator());
+        }
+    }
+
     public class DishUpdateValidator : AbstractValidator<DishUpdateDto>
     {
         public DishUpdateValidator()

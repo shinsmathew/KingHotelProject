@@ -44,6 +44,17 @@ namespace KingHotelProject.Application.Features.Hotels.Validators
         }
     }
 
+    public class HotelsBulkCreateValidator : AbstractValidator<HotelsBulkCreateDto>
+    {
+        public HotelsBulkCreateValidator()
+        {
+            RuleFor(x => x.Hotels)
+                .NotEmpty().WithMessage("At least one hotel is required")
+                .Must(h => h.Count <= 50).WithMessage("Cannot create more than 50 hotels at once");
+
+            RuleForEach(x => x.Hotels).SetValidator(new HotelCreateValidator());
+        }
+    }
     public class HotelUpdateValidator : AbstractValidator<HotelUpdateDto>
     {
         public HotelUpdateValidator()

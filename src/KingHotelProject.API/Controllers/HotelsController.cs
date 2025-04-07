@@ -45,14 +45,15 @@ namespace KingHotelProject.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [ProducesResponseType(typeof(HotelResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(IEnumerable<HotelResponseDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<HotelResponseDto>> CreateHotel(HotelCreateDto hotelCreateDto)
+        public async Task<ActionResult<IEnumerable<HotelResponseDto>>> CreateHotelsBulk(HotelsBulkCreateDto hotelsBulkCreateDto)
         {
-            var command = new CreateHotelCommand { HotelCreateDto = hotelCreateDto };
+            var command = new CreateHotelsBulkCommand { HotelsBulkCreateDto = hotelsBulkCreateDto };
             var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetHotalDataById), new { id = result.HotelId }, result);
+            return CreatedAtAction(nameof(GetAllHotelData), result);
         }
+
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]

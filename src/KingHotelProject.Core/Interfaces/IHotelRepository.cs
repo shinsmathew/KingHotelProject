@@ -6,6 +6,7 @@ namespace KingHotelProject.Core.Interfaces
     {
         Task<IEnumerable<Hotel>> GetAllHotelAsync();
         Task<Hotel> GetHotelByIdAsync(Guid id);
+        Task<IEnumerable<Hotel>> GetHotelByIdsAsync(IEnumerable<Guid> ids);
         Task<Hotel> AddHotelAsync(Hotel hotel);
         Task UpdateHotelAsync(Hotel hotel);
         Task DeleteHotelAsync(Hotel hotel);

@@ -30,14 +30,6 @@ namespace KingHotelProject.Infrastructure.Repositories
                 .FirstOrDefaultAsync(d => d.DishId == id);
         }
 
-        public async Task<IEnumerable<Dish>> GetByHotelIdAsync(Guid hotelId)
-        {
-            return await _context.Dishes
-                .Where(d => d.HotelId == hotelId)
-                .Include(d => d.Hotel)
-                .ToListAsync();
-        }
-
         public async Task<Dish> AddDishAsync(Dish dish)
         {
             await _context.Dishes.AddAsync(dish);

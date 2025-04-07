@@ -27,6 +27,11 @@
         public string PhoneNumber2 { get; set; }
     }
 
+
+    public class HotelsBulkCreateDto
+    {
+        public List<HotelCreateDto> Hotels { get; set; } = new List<HotelCreateDto>();
+    }
     public class HotelUpdateDto
     {
         public string HotelName { get; set; }
