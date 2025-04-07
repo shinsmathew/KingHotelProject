@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using KingHotelProject.Application.DTOs;
+using KingHotelProject.Core.Entities;
 
 namespace KingHotelProject.Application.Features.Dishes.Validators
 {
@@ -20,7 +21,8 @@ namespace KingHotelProject.Application.Features.Dishes.Validators
 
                 dish.RuleFor(x => x.Price)
                     .NotEmpty().WithMessage("Price is required")
-                    .GreaterThan(0).WithMessage("Price must be greater than 0");
+                    .GreaterThan(0).WithMessage("Price must be greater than 0")
+                    .ScalePrecision(2, 18).WithMessage("Price must have maximum 2 decimal places");
 
                 dish.RuleFor(x => x.HotelId)
                     .NotEmpty().WithMessage("Hotel ID is required");
@@ -38,8 +40,9 @@ namespace KingHotelProject.Application.Features.Dishes.Validators
                 .MaximumLength(50).WithMessage("Dish name must not exceed 50 characters");
 
             RuleFor(x => x.Price)
-                .NotEmpty().WithMessage("Price is required")
-                .GreaterThan(0).WithMessage("Price must be greater than 0");
+                    .NotEmpty().WithMessage("Price is required")
+                    .GreaterThan(0).WithMessage("Price must be greater than 0")
+                    .ScalePrecision(2, 18).WithMessage("Price must have maximum 2 decimal places");
         }
     }
 }
