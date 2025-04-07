@@ -55,7 +55,7 @@ namespace KingHotelProject.Infrastructure.Data.Migrations
                 {
                     DishId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DishName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
