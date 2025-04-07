@@ -94,10 +94,6 @@ namespace KingHotelProject.API.Extensions
             services.AddValidatorsFromAssembly(typeof(Application.Features.Hotels.Validators.HotelsBulkCreateValidator).Assembly);
             services.AddValidatorsFromAssembly(typeof(Application.Features.Dishes.Validators.DishesBulkCreateValidator).Assembly);
 
-            // Register bulk validators explicitly
-            services.AddScoped<IValidator<DishesBulkCreateDto>, DishesBulkCreateValidator>();
-            services.AddScoped<IValidator<HotelsBulkCreateDto>, HotelsBulkCreateValidator>();
-
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
         }
