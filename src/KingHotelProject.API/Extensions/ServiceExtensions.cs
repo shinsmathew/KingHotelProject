@@ -88,13 +88,13 @@ namespace KingHotelProject.API.Extensions
             services.AddAutoMapper(typeof(Application.Mappings.MappingProfile));
         }
 
-       
+
         public static void ConfigureFluentValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(typeof(Application.Features.Hotels.Validators.HotelCreateValidator).Assembly);
-            services.AddValidatorsFromAssembly(typeof(Application.Features.Dishes.Validators.DishCreateValidator).Assembly);
+            services.AddValidatorsFromAssembly(typeof(Application.Features.Hotels.Validators.HotelsBulkCreateValidator).Assembly);
+            services.AddValidatorsFromAssembly(typeof(Application.Features.Dishes.Validators.DishesBulkCreateValidator).Assembly);
 
-            // Add bulk validators
+            // Register bulk validators explicitly
             services.AddScoped<IValidator<DishesBulkCreateDto>, DishesBulkCreateValidator>();
             services.AddScoped<IValidator<HotelsBulkCreateDto>, HotelsBulkCreateValidator>();
 
