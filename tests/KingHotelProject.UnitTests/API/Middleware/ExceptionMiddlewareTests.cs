@@ -4,16 +4,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace KingHotelProject.UnitTests.API.Middleware
 {

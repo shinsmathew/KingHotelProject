@@ -5,10 +5,12 @@ using KingHotelProject.Application.Features.Hotels.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
 using FluentAssertions;
-using System.Collections.Generic;
-using System;
+using KingHotelProject.Core.Entities;
+using KingHotelProject.Core.Exceptions;
+using FluentValidation;
+using FluentValidation.Results;
+
 
 namespace KingHotelProject.UnitTests.API.Controllers
 {
@@ -24,7 +26,7 @@ namespace KingHotelProject.UnitTests.API.Controllers
         }
 
         [Fact]
-        public async Task GetAllHotelData_ReturnsOkResultWithHotels()
+        public async Task GetAllHotelData_ReturnsOkResultWIthHotels()
         {
             // Arrange
             var hotels = new List<HotelResponseDto>
@@ -93,5 +95,57 @@ namespace KingHotelProject.UnitTests.API.Controllers
             createdResult.Value.Should().BeEquivalentTo(createdHotels);
             createdResult.ActionName.Should().Be(nameof(_controller.GetAllHotelData));
         }
+
+
+        [Fact]
+        public async Task UpdateHotel_WithValidData_ReturnsNoContent()
+        {
+            // Arrange
+            var hotelId = Guid.NewGuid();
+            var hotelUpdateDto = new HotelUpdateDto
+            {
+                HotelName = "Updated Hotel",
+                Address = "456 Updated St",
+                City = "Updated City",
+                Zip = "54321",
+                Country = "Updated Country",
+                Email = "updated@example.com",
+                PhoneNumber1 = "+9876543210"
+            };
+
+            _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateHotelCommand>(), default))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.UpdateHotel(hotelId, hotelUpdateDto);
+
+            // Assert
+            result.Should().BeOfType<NoContentResult>();
+            _mediatorMock.Verify(m => m.Send(It.Is<UpdateHotelCommand>(c =>
+                c.Id == hotelId && c.HotelUpdateDto == hotelUpdateDto), default), Times.Once);
+        }
+
+        
+
+        [Fact]
+        public async Task DeleteHotel_WithValidId_ReturnsNoContent()
+        {
+            // Arrange
+            var hotelId = Guid.NewGuid();
+
+            _mediatorMock.Setup(m => m.Send(It.IsAny<DeleteHotelCommand>(), default))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.DeleteHotel(hotelId);
+
+            // Assert
+            result.Should().BeOfType<NoContentResult>();
+            _mediatorMock.Verify(m => m.Send(It.Is<DeleteHotelCommand>(c =>
+                c.Id == hotelId), default), Times.Once);
+        }
+
+        
+
     }
 }

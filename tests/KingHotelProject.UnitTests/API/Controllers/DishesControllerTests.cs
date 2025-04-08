@@ -5,10 +5,12 @@ using KingHotelProject.Application.Features.Dishes.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
 using FluentAssertions;
-using System.Collections.Generic;
-using System;
+using KingHotelProject.Core.Entities;
+using KingHotelProject.Core.Exceptions;
+using FluentValidation;
+using FluentValidation.Results;
+
 
 namespace KingHotelProject.UnitTests.API.Controllers
 {
@@ -93,5 +95,47 @@ namespace KingHotelProject.UnitTests.API.Controllers
             createdResult.Value.Should().BeEquivalentTo(createdDishes);
             createdResult.ActionName.Should().Be(nameof(_controller.GetAllDishes));
         }
+
+        [Fact]
+        public async Task UpdateDishes_WithValidData_ReturnsNoContent()
+        {
+            // Arrange
+            var dishId = Guid.NewGuid();
+            var dishUpdateDto = new DishUpdateDto
+            {
+                DishName = "Updated Dish",
+                Price = 15.99m
+            };
+
+            _mediatorMock.Setup(m => m.Send(It.IsAny<UpdateDishCommand>(), default))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.UpdateDishes(dishId, dishUpdateDto);
+
+            // Assert
+            result.Should().BeOfType<NoContentResult>();
+            _mediatorMock.Verify(m => m.Send(It.Is<UpdateDishCommand>(c =>
+                c.Id == dishId && c.DishUpdateDto == dishUpdateDto), default), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteDishes_WithValidId_ReturnsNoContent()
+        {
+            // Arrange
+            var dishId = Guid.NewGuid();
+
+            _mediatorMock.Setup(m => m.Send(It.IsAny<DeleteDishCommand>(), default))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.DeleteDishes(dishId);
+
+            // Assert
+            result.Should().BeOfType<NoContentResult>();
+            _mediatorMock.Verify(m => m.Send(It.Is<DeleteDishCommand>(c =>
+                c.Id == dishId), default), Times.Once);
+        }
+
     }
 }

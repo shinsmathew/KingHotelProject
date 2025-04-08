@@ -3,13 +3,9 @@ using KingHotelProject.Application.Features.Dishes.Queries;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Interfaces;
 using Moq;
-using Xunit;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentAssertions;
 using AutoMapper;
-using KingHotelProject.Application.Mappings;
+
 
 namespace KingHotelProject.UnitTests.Application.Features.Dishes.Queries
 {

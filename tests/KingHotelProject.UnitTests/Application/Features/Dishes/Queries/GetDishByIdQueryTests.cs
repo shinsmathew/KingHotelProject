@@ -4,9 +4,6 @@ using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
 using Moq;
-using Xunit;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentAssertions;
 using AutoMapper;
 
