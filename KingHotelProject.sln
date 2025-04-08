@@ -5,27 +5,22 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8BBDBC1D-2C23-49A1-BFD2-3E8E396D58DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingHotelProject.API", "src\KingHotelProject.API\KingHotelProject.API.csproj", "{DC873DF1-6293-4A59-A7F0-602BDB3FFD08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KingHotelProject.API", "src\KingHotelProject.API\KingHotelProject.API.csproj", "{DC873DF1-6293-4A59-A7F0-602BDB3FFD08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingHotelProject.Core", "src\KingHotelProject.Core\KingHotelProject.Core.csproj", "{03C6C252-2FD3-4126-B994-A7B68CD8A4C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KingHotelProject.Core", "src\KingHotelProject.Core\KingHotelProject.Core.csproj", "{03C6C252-2FD3-4126-B994-A7B68CD8A4C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingHotelProject.Application", "src\KingHotelProject.Application\KingHotelProject.Application.csproj", "{60380275-B923-459C-A90B-252C9EA56F8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KingHotelProject.Application", "src\KingHotelProject.Application\KingHotelProject.Application.csproj", "{60380275-B923-459C-A90B-252C9EA56F8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingHotelProject.Infrastructure", "src\KingHotelProject.Infrastructure\KingHotelProject.Infrastructure.csproj", "{1C1C9392-DFF3-4521-B70D-85DE15D88E63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KingHotelProject.Infrastructure", "src\KingHotelProject.Infrastructure\KingHotelProject.Infrastructure.csproj", "{1C1C9392-DFF3-4521-B70D-85DE15D88E63}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A9188551-6343-4136-B516-6927157D2052}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingHotelProject.UnitTests", "tests\KingHotelProject.UnitTests\KingHotelProject.UnitTests.csproj", "{CF7E3B0D-8493-4EC1-BCD9-6B3A25BFF894}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingHotelProject.IntegrationTests", "tests\KingHotelProject.IntegrationTests\KingHotelProject.IntegrationTests.csproj", "{29B46FEC-4071-4599-BCF0-722D83455EAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KingHotelProject.UnitTests", "tests\KingHotelProject.UnitTests\KingHotelProject.UnitTests.csproj", "{CF7E3B0D-8493-4EC1-BCD9-6B3A25BFF894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DC873DF1-6293-4A59-A7F0-602BDB3FFD08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -48,10 +43,9 @@ Global
 		{CF7E3B0D-8493-4EC1-BCD9-6B3A25BFF894}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF7E3B0D-8493-4EC1-BCD9-6B3A25BFF894}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF7E3B0D-8493-4EC1-BCD9-6B3A25BFF894}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29B46FEC-4071-4599-BCF0-722D83455EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29B46FEC-4071-4599-BCF0-722D83455EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29B46FEC-4071-4599-BCF0-722D83455EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29B46FEC-4071-4599-BCF0-722D83455EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC873DF1-6293-4A59-A7F0-602BDB3FFD08} = {8BBDBC1D-2C23-49A1-BFD2-3E8E396D58DB}
@@ -59,6 +53,8 @@ Global
 		{60380275-B923-459C-A90B-252C9EA56F8A} = {8BBDBC1D-2C23-49A1-BFD2-3E8E396D58DB}
 		{1C1C9392-DFF3-4521-B70D-85DE15D88E63} = {8BBDBC1D-2C23-49A1-BFD2-3E8E396D58DB}
 		{CF7E3B0D-8493-4EC1-BCD9-6B3A25BFF894} = {A9188551-6343-4136-B516-6927157D2052}
-		{29B46FEC-4071-4599-BCF0-722D83455EAF} = {A9188551-6343-4136-B516-6927157D2052}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {20AA2076-F6FC-40B2-92B5-621091EB3F46}
 	EndGlobalSection
 EndGlobal
