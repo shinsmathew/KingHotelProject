@@ -1,4 +1,5 @@
-﻿using KingHotelProject.Application.DTOs;
+﻿
+using KingHotelProject.Application.DTOs.Hotels;
 using KingHotelProject.Application.Features.Hotels.Commands;
 using KingHotelProject.Application.Features.Hotels.Queries;
 using MediatR;

@@ -1,8 +1,8 @@
-﻿using KingHotelProject.Application.DTOs;
-using KingHotelProject.Core.Exceptions;
+﻿
 using KingHotelProject.Core.Interfaces;
 using MediatR;
 using FluentValidation;
+using KingHotelProject.Application.DTOs.Users;
 
 namespace KingHotelProject.Application.Features.Users.Commands
 {

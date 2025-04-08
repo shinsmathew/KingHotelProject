@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Users;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Enums;
 using KingHotelProject.Core.Exceptions;

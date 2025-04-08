@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Dishes;
+using KingHotelProject.Application.DTOs.Hotels;
+using KingHotelProject.Application.DTOs.Users;
 using KingHotelProject.Core.Entities;
 
 namespace KingHotelProject.Application.Mappings

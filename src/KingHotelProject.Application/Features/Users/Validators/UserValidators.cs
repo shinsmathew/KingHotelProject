@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Users;
 using KingHotelProject.Core.Enums;
 
 namespace KingHotelProject.Application.Features.Users.Validators

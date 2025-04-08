@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using KingHotelProject.Application.DTOs;
-using KingHotelProject.Core.Entities;
+using KingHotelProject.Application.DTOs.Dishes;
+
 
 namespace KingHotelProject.Application.Features.Dishes.Validators
 {

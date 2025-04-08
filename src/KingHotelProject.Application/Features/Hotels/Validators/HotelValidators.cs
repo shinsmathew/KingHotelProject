@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Hotels;
 
 namespace KingHotelProject.Application.Features.Hotels.Validators
 {

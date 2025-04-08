@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Hotels;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
@@ -7,7 +7,7 @@ using MediatR;
 
 namespace KingHotelProject.Application.Features.Hotels.Queries
 {
-    public class GetHotelByIdQuery : IRequest<HotelResponseDto>
+    public class GetHotelByIdQuery : IRequest<DTOs.Hotels.HotelResponseDto>
     {
         public Guid Id { get; set; }
     }

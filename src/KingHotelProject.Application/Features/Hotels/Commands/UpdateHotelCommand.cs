@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Hotels;
 using KingHotelProject.Core.Entities;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;

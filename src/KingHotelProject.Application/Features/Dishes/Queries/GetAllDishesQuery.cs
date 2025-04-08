@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using KingHotelProject.Application.DTOs;
+using KingHotelProject.Application.DTOs.Dishes;
 using KingHotelProject.Core.Interfaces;
 using MediatR;
 

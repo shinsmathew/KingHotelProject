@@ -1,4 +1,5 @@
-﻿using KingHotelProject.Application.DTOs;
+﻿
+using KingHotelProject.Application.DTOs.Dishes;
 using KingHotelProject.Application.Features.Dishes.Commands;
 using KingHotelProject.Application.Features.Dishes.Queries;
 using MediatR;

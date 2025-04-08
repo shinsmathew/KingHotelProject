@@ -1,4 +1,5 @@
-﻿using KingHotelProject.Application.DTOs;
+﻿
+using KingHotelProject.Application.DTOs.Users;
 using KingHotelProject.Application.Features.Users.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
