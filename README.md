@@ -35,16 +35,12 @@ Swagger UI with JWT token support
 🏗️ Project Structure
 --------------------------------------------------------------------------------------------------------------
 KingHotelProject/
-├── src/
-│   ├── KingHotelProject.API/            # API layer (Controllers, Middleware)
-│   ├── KingHotelProject.Core/           # Domain layer (Entities, Interfaces, Exceptions)
-│   ├── KingHotelProject.Application/    # Application layer (DTOs, Commands, Queries, Validators)
-│   ├── KingHotelProject.Infrastructure/ # Infrastructure (Repositories, Caching, Identity)
-└── test/
-    └── KingHotelProject.UnitTests/
-        ├── API/
-        ├── Application/
-        └── Infrastructure/
+KingHotelProject.API - # API layer (Controllers, Middleware)
+KingHotelProject.API - # API layer (Controllers, Middleware)
+KingHotelProject.Core -  # Domain layer (Entities, Interfaces, Exceptions)
+KingHotelProject.Application -  # Application layer (DTOs, Commands, Queries, Validators)
+KingHotelProject.Infrastructure - # Infrastructure (Repositories, Caching, Identity)
+KingHotelProject.UnitTests
 
 --------------------------------------------------------------------------------------------------------------
 
