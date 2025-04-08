@@ -8,6 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KingHotelProject.API.Controllers
 {
+
+    /// <summary>
+    /// Manages dish-related operations in the system
+    /// </summary>
+    /// <remarks>
+    /// Provides CRUD operations for dishes with admin-only access for write operations
+    /// </remarks>
+
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -20,6 +28,14 @@ namespace KingHotelProject.API.Controllers
             _mediator = mediator;
         }
 
+        #region Read All Dishes
+
+        /// <summary>
+        /// Retrieves all dishes in the system
+        /// </summary>
+        /// <returns>List of all dishes</returns>
+        /// <response code="200">Returns the list of dishes</response>
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<DishResponseDto>>> GetAllDishes()
@@ -28,6 +44,20 @@ namespace KingHotelProject.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        #endregion
+
+        #region Read Dish with DishID
+
+        /// <summary>
+        /// Retrieves a specific dish by ID
+        /// </summary>
+        /// <param name="id">The dish ID</param>
+        /// <returns>The requested dish details</returns>
+        /// <response code="200">Returns the requested dish</response>
+        /// <response code="400">If the ID format is invalid</response>
+        /// <response code="404">If the dish is not found</response>
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(DishResponseDto), StatusCodes.Status200OK)]
@@ -44,6 +74,20 @@ namespace KingHotelProject.API.Controllers
             return Ok(result);
         }
 
+        #endregion
+
+        #region Create Dish
+
+        /// <summary>
+        /// Creates multiple dishes in bulk (Admin only)
+        /// </summary>
+        /// <param name="dishesBulkCreateDto">List of dishes to create</param>
+        /// <returns>The created dishes</returns>
+        /// <response code="201">Returns the created dishes</response>
+        /// <response code="400">If the request data is invalid</response>
+        /// <response code="401">If user is not authenticated</response>
+        /// <response code="403">If user is not an admin</response>
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status201Created)]
@@ -54,6 +98,22 @@ namespace KingHotelProject.API.Controllers
             var result = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetAllDishes), result);
         }
+        #endregion
+
+
+        #region Upadte Dish
+        /// <summary>
+        /// Updates an existing dish (Admin only)
+        /// </summary>
+        /// <param name="id">The dish ID to update</param>
+        /// <param name="dishUpdateDto">Updated dish data</param>
+        /// <returns>No content</returns>
+        /// <response code="204">If update was successful</response>
+        /// <response code="400">If the request data is invalid</response>
+        /// <response code="401">If user is not authenticated</response>
+        /// <response code="403">If user is not an admin</response>
+        /// <response code="404">If the dish is not found</response>
+
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
@@ -72,6 +132,23 @@ namespace KingHotelProject.API.Controllers
             return NoContent();
         }
 
+
+
+        #endregion
+
+        #region Delete Dish
+
+        /// <summary>
+        /// Deletes a dish (Admin only)
+        /// </summary>
+        /// <param name="id">The dish ID to delete</param>
+        /// <returns>No content</returns>
+        /// <response code="204">If deletion was successful</response>
+        /// <response code="400">If the ID format is invalid</response>
+        /// <response code="401">If user is not authenticated</response>
+        /// <response code="403">If user is not an admin</response>
+        /// <response code="404">If the dish is not found</response>
+
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -88,7 +165,7 @@ namespace KingHotelProject.API.Controllers
             return NoContent();
         }
 
-       
-       
+        #endregion 
+
     }
 }
