@@ -11,7 +11,7 @@ namespace KingHotelProject.Application.Mappings
         public MappingProfile()
         {
             // User Mappings
-            CreateMap<User, UserResponseDto>().ReverseMap();
+            CreateMap<User, UserResponseDto>();
 
             CreateMap<UserRegisterDto, User>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
@@ -38,7 +38,7 @@ namespace KingHotelProject.Application.Mappings
                 .ForMember(dest => dest.Dishes, opt => opt.Ignore());
 
             // Dish Mappings
-            CreateMap<Dish, DishResponseDto>().ReverseMap();
+            CreateMap<Dish, DishResponseDto>();
 
             CreateMap<DishCreateDto, Dish>()
                 .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
