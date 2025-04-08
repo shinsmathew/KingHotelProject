@@ -1,4 +1,4 @@
- King Hotel Project - REST API
+King Hotel Project - REST API
  
 A robust hotel management system API built with ASP.NET Core 8, implementing modern architectural practices, secure authentication, Redis caching, and a clean separation of concerns.
 
