@@ -1,86 +1,44 @@
-King Hotel Project - REST API
+ King Hotel Project - REST API
+ 
+A robust hotel management system API built with ASP.NET Core 8, implementing modern architectural practices, secure authentication, Redis caching, and a clean separation of concerns.
 
-A comprehensive hotel management system API built with ASP.NET Core 8, featuring authentication, authorization, and Redis caching.
+✨ Features
+🔐 Authentication & Authorization
 
-Features
-User Authentication: JWT-based authentication with role-based authorization (Admin/Staff)
+Secure JWT-based authentication
 
-Hotel Management: CRUD operations for hotels with bulk creation support
+Role-based access control (Admin/Staff)
 
-Dish Management: CRUD operations for dishes with bulk creation support
+🏨 Hotel Management
 
-Redis Caching: Performance optimization with Redis caching layer
+Full CRUD operations
 
-Validation: Comprehensive request validation with FluentValidation
+Bulk hotel creation support
 
-Exception Handling: Custom exception middleware with detailed error responses
+🍽️ Dish Management
 
-AutoMapper: Clean DTO to entity mapping
+Full CRUD operations
 
-MediatR: CQRS pattern implementation
+Bulk dish creation support
 
-Swagger: API documentation with JWT support
+⚡ Redis Caching
 
-Architecture:
+Enhanced performance with Redis as a caching layer
 
-KingHotelProject/
-├── src/
-│   ├── KingHotelProject.API/            # Web API layer (Controllers, Middleware)
-│   ├── KingHotelProject.Core/           # Domain layer (Entities, Interfaces, Exceptions)
-│   ├── KingHotelProject.Application/    # Application layer (DTOs, Commands, Queries, Validators)
-│   ├── KingHotelProject.Infrastructure/ # Infrastructure layer (Repositories, Caching, Identity)
-└── test/
-│   ├── KingHotelProject.UnitTests/
-│       ├── API/
-│       ├── Application/
-│       └── Infrastructure/
+🛡️ Validation & Error Handling
 
+FluentValidation for request validation
 
-Technologies:
+Custom middleware for global exception handling with detailed error responses
 
-ASP.NET Core 8
-C#
-SQL
-Redis
-JWT
-Entity Framework Core
-Redis
-JWT Authentication
-FluentValidation
-AutoMapper
-MediatR
-Swagger/OpenAPI
-Serilog
+📦 Clean Architecture
 
+DTO-to-Entity mapping using AutoMapper
 
-Prerequisites :
-.NET 8 SDK
-MSSQL Server
-Redis Server
-Visual Studio
+CQRS pattern implementation via MediatR
 
+📘 API Documentation
 
-Installation :
-Clone the repository
-git clone: https://github.com/shinsmathew/KingHotelProject.git
-
-Configure the connection strings in appsettings.json:
-
-"ConnectionStrings": {
-  "DefaultConnection": "Your_SQL_Server_Connection_String",
-  "Redis": "Your_Redis_Connection_String"
-}
-
-
-Configure JWT settings:
-
-"Jwt": {
-  "Key": "Your_Secret_Key",
-  "Issuer": "KingHotelProject",
-  "Audience": "KingHotelProjectClients",
-  "ExpiryMinutes": 30
-}
-
-Configure Redis Server in you system.
+Swagger UI with JWT token support
 
 
