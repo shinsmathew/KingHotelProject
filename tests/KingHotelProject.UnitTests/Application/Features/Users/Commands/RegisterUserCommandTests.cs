@@ -1,16 +1,16 @@
-﻿using KingHotelProject.Application.Features.Users.Commands;
+﻿using KingHotelProject.Application.DTOs.Users;
+using KingHotelProject.Application.Features.Users.Commands;
 using KingHotelProject.Core.Entities;
+using KingHotelProject.Core.Enums;
 using KingHotelProject.Core.Exceptions;
 using KingHotelProject.Core.Interfaces;
 using Moq;
 using Xunit;
-using FluentAssertions;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
-using KingHotelProject.Application.DTOs.Users;
-using KingHotelProject.Core.Enums;
 
 namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
 {
@@ -26,7 +26,6 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
             _userRepositoryMock = new Mock<IUserRepository>();
             _identityServiceMock = new Mock<IIdentityService>();
             _validatorMock = new Mock<IValidator<UserRegisterDto>>();
-
             _handler = new RegisterUserCommandHandler(
                 _userRepositoryMock.Object,
                 _identityServiceMock.Object,
@@ -34,7 +33,7 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
         }
 
         [Fact]
-        public async Task Handle_WithValidData_ReturnsAuthResponse()
+        public async Task Handle_WithValidRequest_ShouldRegisterUserAndReturnAuthResponse()
         {
             // Arrange
             var request = new RegisterUserCommand
@@ -45,33 +44,13 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
                     LastName = "User",
                     Email = "test@example.com",
                     UserName = "testuser",
-                    Password = "StrongPassword123!",
+                    Password = "Password123!",
                     Role = 0
                 }
             };
 
-            var user = new User
-            {
-                UserId = Guid.NewGuid(),
-                UserName = request.UserRegisterDto.UserName,
-                Email = request.UserRegisterDto.Email,
-                Role = (UserRole)request.UserRegisterDto.Role
-            };
-
-            var authResponse = new AuthResponseDto
-            {
-                Token = "test-token",
-                User = new UserResponseDto
-                {
-                    UserId = user.UserId,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    UserName = user.UserName,
-                    Role = user.Role,
-                    CreatedDate = user.CreatedDate
-                }
-            };
+            var hashedPassword = "hashedPassword";
+            var token = "test-token";
 
             _validatorMock.Setup(v => v.ValidateAsync(request.UserRegisterDto, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new ValidationResult());
@@ -82,21 +61,26 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
             _userRepositoryMock.Setup(r => r.GetByEmailAsync(request.UserRegisterDto.Email))
                 .ReturnsAsync((User)null);
 
-            _userRepositoryMock.Setup(r => r.AddUserAsync(It.IsAny<User>()))
-                .ReturnsAsync(user);
+            _identityServiceMock.Setup(s => s.HashPassword(request.UserRegisterDto.Password))
+                .Returns(hashedPassword);
 
-            _identityServiceMock.Setup(s => s.GenerateJwtToken(user))
-                .Returns(authResponse.Token);
+            _identityServiceMock.Setup(s => s.GenerateJwtToken(It.IsAny<User>()))
+                .Returns(token);
 
             // Act
             var result = await _handler.Handle(request, CancellationToken.None);
 
             // Assert
-            result.Should().BeEquivalentTo(authResponse);
+            result.Should().NotBeNull();
+            result.Token.Should().Be(token);
+            result.User.Should().NotBeNull();
+            _userRepositoryMock.Verify(r => r.AddUserAsync(It.Is<User>(u =>
+                u.UserName == request.UserRegisterDto.UserName &&
+                u.PasswordHash == hashedPassword)), Times.Once);
         }
 
         [Fact]
-        public async Task Handle_WithExistingUsername_ThrowsBadRequestException()
+        public async Task Handle_WithExistingUsername_ShouldThrowBadRequestException()
         {
             // Arrange
             var request = new RegisterUserCommand
@@ -105,8 +89,7 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
                 {
                     UserName = "existinguser",
                     Email = "test@example.com",
-                    Password = "StrongPassword123!",
-                    Role = 0
+                    Password = "Password123!"
                 }
             };
 
@@ -122,7 +105,7 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
         }
 
         [Fact]
-        public async Task Handle_WithExistingEmail_ThrowsBadRequestException()
+        public async Task Handle_WithExistingEmail_ShouldThrowBadRequestException()
         {
             // Arrange
             var request = new RegisterUserCommand
@@ -131,8 +114,7 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
                 {
                     UserName = "testuser",
                     Email = "existing@example.com",
-                    Password = "StrongPassword123!",
-                    Role = 0
+                    Password = "Password123!"
                 }
             };
 
@@ -144,6 +126,35 @@ namespace KingHotelProject.UnitTests.Application.Features.Users.Commands
 
             _userRepositoryMock.Setup(r => r.GetByEmailAsync(request.UserRegisterDto.Email))
                 .ReturnsAsync(new User());
+
+            // Act & Assert
+            await Assert.ThrowsAsync<BadRequestException>(() =>
+                _handler.Handle(request, CancellationToken.None));
+        }
+
+        [Fact]
+        public async Task Handle_WithInvalidRole_ShouldThrowBadRequestException()
+        {
+            // Arrange
+            var request = new RegisterUserCommand
+            {
+                UserRegisterDto = new UserRegisterDto
+                {
+                    UserName = "testuser",
+                    Email = "test@example.com",
+                    Password = "Password123!",
+                    Role = 99 // Invalid role
+                }
+            };
+
+            _validatorMock.Setup(v => v.ValidateAsync(request.UserRegisterDto, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new ValidationResult());
+
+            _userRepositoryMock.Setup(r => r.GetByUserNameAsync(request.UserRegisterDto.UserName))
+                .ReturnsAsync((User)null);
+
+            _userRepositoryMock.Setup(r => r.GetByEmailAsync(request.UserRegisterDto.Email))
+                .ReturnsAsync((User)null);
 
             // Act & Assert
             await Assert.ThrowsAsync<BadRequestException>(() =>

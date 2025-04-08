@@ -1,7 +1,8 @@
-﻿using KingHotelProject.Application.Features.Hotels.Validators;
-using KingHotelProject.Application.DTOs.Hotels;
+﻿using KingHotelProject.Application.DTOs.Hotels;
+using KingHotelProject.Application.Features.Hotels.Validators;
 using FluentValidation.TestHelper;
 using Xunit;
+using System.Collections.Generic;
 
 namespace KingHotelProject.UnitTests.Application.Features.Hotels.Validators
 {
@@ -66,7 +67,7 @@ namespace KingHotelProject.UnitTests.Application.Features.Hotels.Validators
                         Zip = "12345",
                         Country = "Test Country",
                         Email = "test@example.com",
-                        PhoneNumber1 = "123-456-7890"
+                        PhoneNumber1 = "+1234567890"
                     }
                 }
             };
@@ -104,7 +105,7 @@ namespace KingHotelProject.UnitTests.Application.Features.Hotels.Validators
                 Zip = "12345",
                 Country = "Test Country",
                 Email = "test@example.com",
-                PhoneNumber1 = "123-456-7890"
+                PhoneNumber1 = "+1234567890"
             };
 
             // Act

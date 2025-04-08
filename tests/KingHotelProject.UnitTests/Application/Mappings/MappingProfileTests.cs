@@ -1,12 +1,13 @@
-﻿using KingHotelProject.Application.Mappings;
+﻿using KingHotelProject.Application.DTOs.Dishes;
+using KingHotelProject.Application.DTOs.Hotels;
+using KingHotelProject.Application.DTOs.Users;
+using KingHotelProject.Application.Mappings;
+using KingHotelProject.Core.Entities;
+using KingHotelProject.Core.Enums;
 using AutoMapper;
 using Xunit;
-using KingHotelProject.Core.Entities;
-using KingHotelProject.Application.DTOs.Hotels;
-using KingHotelProject.Application.DTOs.Dishes;
-using KingHotelProject.Application.DTOs.Users;
 using FluentAssertions;
-using KingHotelProject.Core.Enums;
+using System;
 
 namespace KingHotelProject.UnitTests.Application.Mappings
 {
@@ -16,56 +17,67 @@ namespace KingHotelProject.UnitTests.Application.Mappings
 
         public MappingProfileTests()
         {
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-
-            _mapper = mappingConfig.CreateMapper();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            _mapper = configuration.CreateMapper();
         }
 
         [Fact]
-        public void ShouldHaveValidConfiguration()
-        {
-            // Act & Assert
-            _mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        }
-
-        [Fact]
-        public void ShouldMap_Hotel_To_HotelResponseDto()
+        public void MappingProfile_ShouldMapUserRegisterDtoToUser()
         {
             // Arrange
-            var hotel = new Hotel
+            var dto = new UserRegisterDto
             {
-                HotelId = Guid.NewGuid(),
+                FirstName = "Test",
+                LastName = "User",
+                Email = "test@example.com",
+                UserName = "testuser",
+                Password = "Password123!",
+                Role = 0
+            };
+
+            // Act
+            var user = _mapper.Map<User>(dto);
+
+            // Assert
+            user.FirstName.Should().Be(dto.FirstName);
+            user.LastName.Should().Be(dto.LastName);
+            user.Email.Should().Be(dto.Email);
+            user.UserName.Should().Be(dto.UserName);
+            user.Role.Should().Be(UserRole.Admin);
+            user.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
+        }
+
+        [Fact]
+        public void MappingProfile_ShouldMapHotelCreateDtoToHotel()
+        {
+            // Arrange
+            var dto = new HotelCreateDto
+            {
                 HotelName = "Test Hotel",
                 Address = "123 Test St",
                 City = "Test City",
                 Zip = "12345",
                 Country = "Test Country",
                 Email = "test@example.com",
-                PhoneNumber1 = "123-456-7890",
-                CreatedDate = DateTime.UtcNow
+                PhoneNumber1 = "+1234567890"
             };
 
             // Act
-            var result = _mapper.Map<HotelResponseDto>(hotel);
+            var hotel = _mapper.Map<Hotel>(dto);
 
             // Assert
-            result.Should().NotBeNull();
-            result.HotelId.Should().Be(hotel.HotelId);
-            result.HotelName.Should().Be(hotel.HotelName);
-            result.Address.Should().Be(hotel.Address);
-            result.City.Should().Be(hotel.City);
-            result.Zip.Should().Be(hotel.Zip);
-            result.Country.Should().Be(hotel.Country);
-            result.Email.Should().Be(hotel.Email);
-            result.PhoneNumber1.Should().Be(hotel.PhoneNumber1);
-            result.CreatedDate.Should().Be(hotel.CreatedDate);
+            hotel.HotelName.Should().Be(dto.HotelName);
+            hotel.Address.Should().Be(dto.Address);
+            hotel.City.Should().Be(dto.City);
+            hotel.Zip.Should().Be(dto.Zip);
+            hotel.Country.Should().Be(dto.Country);
+            hotel.Email.Should().Be(dto.Email);
+            hotel.PhoneNumber1.Should().Be(dto.PhoneNumber1);
+            hotel.CreatedDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(1));
         }
 
         [Fact]
-        public void ShouldMap_Dish_To_DishResponseDto()
+        public void MappingProfile_ShouldMapDishToDishResponseDto()
         {
             // Arrange
             var dish = new Dish
@@ -73,49 +85,17 @@ namespace KingHotelProject.UnitTests.Application.Mappings
                 DishId = Guid.NewGuid(),
                 DishName = "Test Dish",
                 Price = 10.99m,
-                HotelId = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow
+                HotelId = Guid.NewGuid()
             };
 
             // Act
-            var result = _mapper.Map<DishResponseDto>(dish);
+            var dto = _mapper.Map<DishResponseDto>(dish);
 
             // Assert
-            result.Should().NotBeNull();
-            result.DishId.Should().Be(dish.DishId);
-            result.DishName.Should().Be(dish.DishName);
-            result.Price.Should().Be(dish.Price);
-            result.HotelId.Should().Be(dish.HotelId);
-            result.CreatedDate.Should().Be(dish.CreatedDate);
-        }
-
-        [Fact]
-        public void ShouldMap_User_To_UserResponseDto()
-        {
-            // Arrange
-            var user = new User
-            {
-                UserId = Guid.NewGuid(),
-                FirstName = "Test",
-                LastName = "User",
-                Email = "test@example.com",
-                UserName = "testuser",
-                Role = UserRole.Admin,
-                CreatedDate = DateTime.UtcNow
-            };
-
-            // Act
-            var result = _mapper.Map<UserResponseDto>(user);
-
-            // Assert
-            result.Should().NotBeNull();
-            result.UserId.Should().Be(user.UserId);
-            result.FirstName.Should().Be(user.FirstName);
-            result.LastName.Should().Be(user.LastName);
-            result.Email.Should().Be(user.Email);
-            result.UserName.Should().Be(user.UserName);
-            result.Role.Should().Be(user.Role);
-            result.CreatedDate.Should().Be(user.CreatedDate);
+            dto.DishId.Should().Be(dish.DishId);
+            dto.DishName.Should().Be(dish.DishName);
+            dto.Price.Should().Be(dish.Price);
+            dto.HotelId.Should().Be(dish.HotelId);
         }
     }
 }

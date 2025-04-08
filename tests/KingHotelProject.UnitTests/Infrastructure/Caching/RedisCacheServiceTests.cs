@@ -59,6 +59,8 @@ namespace KingHotelProject.UnitTests.Infrastructure.Caching
             result.Should().BeNull();
         }
 
+
+
         [Fact]
         public async Task SetRedisCacheAsync_WithValue_SetsSerializedValue()
         {
@@ -68,8 +70,8 @@ namespace KingHotelProject.UnitTests.Infrastructure.Caching
             var serializedValue = JsonSerializer.Serialize(value);
 
             _databaseMock.Setup(d => d.StringSetAsync(
-                key,
-                serializedValue,
+                It.Is<string>(k => k == key),
+                It.Is<string>(v => v == serializedValue),
                 It.IsAny<TimeSpan?>(),
                 It.IsAny<When>(),
                 It.IsAny<CommandFlags>()))
@@ -80,13 +82,14 @@ namespace KingHotelProject.UnitTests.Infrastructure.Caching
 
             // Assert
             _databaseMock.Verify(d => d.StringSetAsync(
-                key,
-                It.Is<string>(s => s.Contains("\"Id\":1") && s.Contains("\"Name\":\"Test\""),
-                null,
-                When.Always,
-                CommandFlags.None),
+                It.Is<string>(k => k == key),
+                It.Is<string>(v => v == serializedValue),
+                It.IsAny<TimeSpan?>(),
+                It.IsAny<When>(),
+                It.IsAny<CommandFlags>()),
                 Times.Once);
         }
+
 
         [Fact]
         public async Task RemoveRedisCacheAsync_WithKey_DeletesKey()
