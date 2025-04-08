@@ -48,7 +48,7 @@ namespace KingHotelProject.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<DishResponseDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<DishResponseDto>>> CreateDishesBulk(DishesBulkCreateDto dishesBulkCreateDto)
+        public async Task<ActionResult<IEnumerable<DishResponseDto>>> CreateDishesBulk([FromBody] DishesBulkCreateDto dishesBulkCreateDto)
         {
             var command = new CreateDishesBulkCommand { DishesBulkCreateDto = dishesBulkCreateDto };
             var result = await _mediator.Send(command);
@@ -60,7 +60,7 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateDishes(Guid id, DishUpdateDto dishUpdateDto)
+        public async Task<IActionResult> UpdateDishes(Guid id, [FromBody] DishUpdateDto dishUpdateDto)
         {
             if (id == Guid.Empty)
             {

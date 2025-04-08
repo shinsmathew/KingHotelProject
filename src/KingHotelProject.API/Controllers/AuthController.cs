@@ -20,7 +20,7 @@ namespace KingHotelProject.API.Controllers
         [HttpPost("register")]
         [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthResponseDto>> Register(UserRegisterDto userRegisterDto)
+        public async Task<ActionResult<AuthResponseDto>> Register([FromBody] UserRegisterDto userRegisterDto)
         {
             var command = new RegisterUserCommand { UserRegisterDto = userRegisterDto };
             var result = await _mediator.Send(command);
@@ -31,7 +31,7 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<AuthResponseDto>> Login(UserLoginDto userLoginDto)
+        public async Task<ActionResult<AuthResponseDto>> Login([FromBody] UserLoginDto userLoginDto)
         {
             var command = new LoginUserCommand { UserLoginDto = userLoginDto };
             var result = await _mediator.Send(command);

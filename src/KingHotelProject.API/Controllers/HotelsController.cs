@@ -48,7 +48,7 @@ namespace KingHotelProject.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<HotelResponseDto>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<HotelResponseDto>>> CreateHotelsBulk(HotelsBulkCreateDto hotelsBulkCreateDto)
+        public async Task<ActionResult<IEnumerable<HotelResponseDto>>> CreateHotelsBulk([FromBody] HotelsBulkCreateDto hotelsBulkCreateDto)
         {
             var command = new CreateHotelsBulkCommand { HotelsBulkCreateDto = hotelsBulkCreateDto };
             var result = await _mediator.Send(command);
@@ -61,7 +61,7 @@ namespace KingHotelProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateHotel(Guid id, HotelUpdateDto hotelUpdateDto)
+        public async Task<IActionResult> UpdateHotel(Guid id, [FromBody] HotelUpdateDto hotelUpdateDto)
         {
             if (id == Guid.Empty)
             {
